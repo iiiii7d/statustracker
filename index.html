@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MRT Status Tracker</title>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <style>* {font-family: Arial, Helvetica, sans-serif;}</style>
+  <body>
+    <div>
+      <b>View data from </b>
+      <input type="datetime-local" id="start" value="2021-01-01T00:00" onchange="update()">
+      <b> to </b>
+      <input type="datetime-local" id="end" value="2021-01-01T00:00" onchange="update()">
+      <button onclick="view(60)">Past Hour</button>
+      <button onclick="view(1440)">Past Day</button>
+      <button onclick="view(null)">Everything</button>
+    </div>
+    <div id="chart" style="height: 50%; width: 100%;"></div>
+    
+  </body>
+</html>
