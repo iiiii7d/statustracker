@@ -40,6 +40,7 @@ function chart(result, start, end)
   mcplayers = [];
   mcstaffs = [];
   mumble = [];
+  percentage = [];
   for (const [time, val] of Object.entries(result))
   {
     if (time >= start && time <= end)
@@ -47,6 +48,7 @@ function chart(result, start, end)
       mcplayers.push({x: new Date(time * 60 * 1000), y: parseInt(val.split(" ")[0])});
       mcstaffs.push({x: new Date(time * 60 * 1000), y: parseInt(val.split(" ")[1])});
       mumble.push({x: new Date(time * 60 * 1000), y: parseInt(val.split(" ")[2])});
+      percentage.push({x: new Date(time * 60 * 1000), y: parseInt(val.split(" ")[1]) / parseInt(val.split(" ")[0])})
     }
   }
 
@@ -89,7 +91,13 @@ function chart(result, start, end)
         name: "mumble",
         color: "#87ceeb",
         dataPoints: mumble
-      }
+      },
+      /*{
+        type: "line",
+        name: "percentage",
+        color: "#aaaaaa",
+        dataPoints: percentage
+      }*/
     ]
   });
 

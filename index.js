@@ -149,13 +149,13 @@ function update()
         if (err) throw err;
         let logs = JSON.parse(data);
         logs[timestamp] = stringentry;
-        if (Object.keys(logs).length > 600)
+        /*if (Object.keys(logs).length > 600)
         {
           var temp = Object.keys(logs);
           temp.sort((a, b) => a - b);
           console.log(temp[0]);
           delete logs[temp[0]];
-        }
+        }*/
         //console.log(logs);
         newdata = JSON.stringify(logs, null, 2);
         fs.writeFile('count.json', newdata, (err) => {
