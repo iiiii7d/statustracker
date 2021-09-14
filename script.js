@@ -37,19 +37,41 @@ function view(mins)
 
 function chart(result, start, end)
 {
-  mcplayers = [];
-  mcstaffs = [];
-  mumble = [];
-  percentage = [];
-  for (const [time, val] of Object.entries(result))
-  {
-    if (time >= start && time <= end)
-    {
-      mcplayers.push({x: new Date(time * 60 * 1000), y: parseInt(val.split(" ")[0])});
-      mcstaffs.push({x: new Date(time * 60 * 1000), y: parseInt(val.split(" ")[1])});
-      mumble.push({x: new Date(time * 60 * 1000), y: parseInt(val.split(" ")[2])});
-      percentage.push({x: new Date(time * 60 * 1000), y: parseInt(val.split(" ")[1]) / parseInt(val.split(" ")[0])})
-    }
+  var mcplayers = [];
+  var mcstaffs = [];
+  var mumble = [];
+  var percentage = [];
+  var prevMcplayers;
+  var prevMcstaff;
+  var prevMumble;
+  var prevPercentage;
+  var min = Math.min(...Object.entries(result).map(entry => entry[0]));
+
+  for (var time=start; time<end; time++) {
+    if (result[time]) {
+      val = result[time];
+      mcplayers.push({x: new Date(time * 60 * 1000), y: prevMcplayers = parseInt(val.split(" ")[0])});
+      mcstaffs.push({x: new Date(time * 60 * 1000), y: prevMcstaff = parseInt(val.split(" ")[1])});
+      mumble.push({x: new Date(time * 60 * 1000), y: prevMumble = parseInt(val.split(" ")[2])});
+      percentage.push({x: new Date(time * 60 * 1000), y: prevPercentage = parseInt(val.split(" ")[1]) / parseInt(val.split(" ")[0]) * 100});
+    } else {
+      if (prevMcplayers) {
+        mcplayers.push({x: new Date(time * 60 * 1000), y: prevMcplayers});
+        mcstaffs.push({x: new Date(time * 60 * 1000), y: prevMcstaff});
+        mumble.push({x: new Date(time * 60 * 1000), y: prevMumble});
+        percentage.push({x: new Date(time * 60 * 1000), y: prevPercentage});
+      } else {
+        for (var i = time; i > min; i--) {
+          if (result[i]) {
+            mcplayers.push({x: new Date(time * 60 * 1000), y: prevMcplayers = parseInt(result[i].split(" ")[0])});
+            mcstaffs.push({x: new Date(time * 60 * 1000), y: prevMcstaff = parseInt(result[i].split(" ")[1])});
+            mumble.push({x: new Date(time * 60 * 1000), y: prevMumble = parseInt(result[i].split(" ")[2])});
+            percentage.push({x: new Date(time * 60 * 1000), y: prevPercentage = parseInt(result[i].split(" ")[1]) / parseInt(result[i].split(" ")[0]) * 100});
+            break;
+          }
+        }
+      }
+    } 
   }
 
   var chart = new CanvasJS.Chart("chart", {

@@ -22,6 +22,8 @@ var staffs = [
   "MC_Protocol",
   "DintyB"];
 
+var prevStringentry;
+
 var server = http.createServer(function(request, response) {  
   if (request.method === 'POST') {
     let body = '';
@@ -145,6 +147,8 @@ function update()
 
       stringentry = `${entry["Main"]["players"]} ${entry["Main"]["staffs"]} ${entry["Mumble"]["players"]}`
       console.log(entry)
+      if (prevStringentry == stringentry) return;
+      prevStringentry = stringentry
       fs.readFile('count.json', (err, data) => {
         if (err) throw err;
         let logs = JSON.parse(data);
