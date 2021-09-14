@@ -77,6 +77,7 @@ function chart(result, start, end)
   var chart = new CanvasJS.Chart("chart", {
     title: {text: "Players"},
     zoomEnabled: true,
+    rangeChanged: syncHandler,
     toolTip: {
       shared: true,
       contentFormatter: function(e){
@@ -90,7 +91,7 @@ function chart(result, start, end)
           if (e.entries[i].dataSeries.name == "staffers") cstaffs = e.entries[i].dataPoint.y;
         }
         var pc = Math.round(cstaffs / cplayers * 100);
-        if (pc.isNaN) pc = "-";
+        if (isNaN(pc)) pc = "-";
         str = str.concat(`% staff: ${pc}`);
         return (str);
       }
@@ -124,4 +125,51 @@ function chart(result, start, end)
   });
 
   chart.render();
+  
+  var pcchart = new CanvasJS.Chart("pcchart", {
+    title: {text: "% Staff"},
+    zoomEnabled: true,
+    rangeChanged: syncHandler,
+    toolTip: {
+      shared: true,
+      contentFormatter: function(e){
+        var str = e.entries[0].dataPoint.x.toLocaleString() + "<br>";
+        var pc = e.entries[0].dataPoint.y;
+        if (pc.isNaN) pc = "-";
+        str = str.concat(`% staff: ${pc}`);
+        return (str);
+      }
+    },
+    data: [
+      {
+        type: "line",
+        name: "percentage",
+        color: "#aaaaaa",
+        dataPoints: percentage
+      }
+    ]
+  });
+
+  pcchart.render();
+  
+  var charts = [chart, pcchart]; 
+ 
+  function syncHandler(e) {
+    for (var i = 0; i < charts.length; i++) {
+        var chart = charts[i];
+        if (!chart.options.axisX) chart.options.axisX = {};
+        if (!chart.options.axisY) chart.options.axisY = {};
+        if (e.trigger === "reset") {
+          chart.options.axisX.viewportMinimum = chart.options.axisX.viewportMaximum = null;
+          chart.options.axisY.viewportMinimum = chart.options.axisY.viewportMaximum = null;
+          chart.render();
+        } else if (chart !== e.chart) {
+          chart.options.axisX.viewportMinimum = e.axisX[0].viewportMinimum;
+          chart.options.axisX.viewportMaximum = e.axisX[0].viewportMaximum;
+          chart.options.axisY.viewportMinimum = e.axisY[0].viewportMinimum;
+          chart.options.axisY.viewportMaximum = e.axisY[0].viewportMaximum;
+          chart.render();
+        }
+    }
+}
 }
