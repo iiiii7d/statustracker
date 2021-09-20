@@ -70,16 +70,20 @@ var server = http.createServer(function(request, response) {
         }); 
         break;
       case '/count.json': 
-        fs.readFile('count.json', function(error, data) { 
+        fs.readdir('data/', function(error, datas) { 
           if (error) { 
             response.writeHead(404); 
             response.write(error); 
             response.end(); 
           } else { 
+            let all = {}
+            datas.forEach(data => {
+              all = Object.assign({}, all, JSON.parse(fs.readFileSync("data/"+data)))
+            })
             response.writeHead(200, { 
               'Content-Type': 'application/json' 
             }); 
-            response.write(data); 
+            response.write(JSON.stringify(all)); 
             response.end(); 
           } 
         }); 
@@ -149,7 +153,7 @@ function update()
       console.log(entry)
       if (prevStringentry == stringentry) return;
       prevStringentry = stringentry
-      fs.readFile('count.json', (err, data) => {
+      fs.readFile('data/count.json', (err, data) => {
         if (err) throw err;
         let logs = JSON.parse(data);
         logs[timestamp] = stringentry;
@@ -162,10 +166,13 @@ function update()
         }*/
         //console.log(logs);
         newdata = JSON.stringify(logs, null, 2);
-        fs.writeFile('count.json', newdata, (err) => {
-          if (err) throw err;
-          //console.log('Data written to file');
-        });
+        fs.writeFileSync('data/count.json', newdata)
+        if (Math.round(new Date() / 1000 / 60) - parseInt(fs.readFileSync('lastcopied.txt')) >= 720) {
+          fs.writeFile(`data/${new Date().toISOString()}.json`, newdata, err => {if (err) throw err;});
+          fs.writeFile(`data/count.json`, '{}', err => {if (err) throw err;});
+          fs.writeFile(`lastcopied.txt`, Math.round(new Date() / 1000 / 60).toString(), err => {if (err) throw err;})
+          console.log("Refreshed");
+        }
       });
     }
   };
