@@ -4,6 +4,8 @@ var fs = require('fs');
 var { parse } = require('querystring'); 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var cheerio = require('cheerio');
+const Database = require("@replit/database");
+const db = new Database();
 
 var staffs = [
   "Frumple",
@@ -37,6 +39,7 @@ var server = http.createServer(function(request, response) {
   }
   else {
     var path = url.parse(request.url).pathname; 
+    console.log(path)
     switch (path) {  
       case '/':
         fs.readFile(__dirname + '/index.html', function(error, data) { 
@@ -70,7 +73,7 @@ var server = http.createServer(function(request, response) {
         }); 
         break;
       case '/count.json': 
-        fs.readdir('data/', function(error, datas) { 
+        /*fs.readdir('data/', function(error, datas) { 
           if (error) { 
             response.writeHead(404); 
             response.write(error); 
@@ -86,7 +89,15 @@ var server = http.createServer(function(request, response) {
             response.write(JSON.stringify(all)); 
             response.end(); 
           } 
-        }); 
+        });*/
+        console.log("Retrieving");
+        db.getAll().then(dict => {
+          response.writeHead(200, { 
+            'Content-Type': 'application/json' 
+          }); 
+          response.write(JSON.stringify(dict));
+          response.end();
+        });
         break;
       default: 
         response.writeHead(404); 
@@ -96,7 +107,7 @@ var server = http.createServer(function(request, response) {
     }
   } 
 }); 
-server.listen(8082);
+server.listen(3000);
 
 function update()
 {
@@ -153,17 +164,18 @@ function update()
       console.log(entry)
       if (prevStringentry == stringentry) return;
       prevStringentry = stringentry
-      fs.readFile('data/count.json', (err, data) => {
+      db.set(timestamp, stringentry).then(() => {});
+      /*fs.readFile('data/count.json', (err, data) => {
         if (err) throw err;
         let logs = JSON.parse(data);
         logs[timestamp] = stringentry;
-        /*if (Object.keys(logs).length > 600)
+        /if (Object.keys(logs).length > 600)
         {
           var temp = Object.keys(logs);
           temp.sort((a, b) => a - b);
           console.log(temp[0]);
           delete logs[temp[0]];
-        }*/
+        }/
         //console.log(logs);
         newdata = JSON.stringify(logs, null, 2);
         fs.writeFileSync('data/count.json', newdata)
@@ -173,7 +185,7 @@ function update()
           fs.writeFile(`lastcopied.txt`, Math.round(new Date() / 1000 / 60).toString(), err => {if (err) throw err;})
           console.log("Refreshed");
         }
-      });
+      });*/
     }
   };
 }
