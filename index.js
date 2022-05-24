@@ -6,23 +6,26 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var cheerio = require('cheerio');
 const Database = require("@replit/database");
 const db = new Database();
+var MongoClient = require('mongodb').MongoClient;
+var uri = `mongodb+srv://replit:${process.env['mongo']}@statustracker.zp2rb.mongodb.net/statustracker?retryWrites=true&w=majority`;
 
 var staffs = [
   "Frumple",
-  "Chiefbozx",
+  "chiefbozx",
   "AP_Red",
   "Cynra_",
-  "sesese9",
   "Tom_Pairs", 
   "Skelezomperman",
   "Needn_NL",
   "Missa_Solemnis",
-  "ondist",
   "MPolo455",
   "hvt2011",
-  "Narnia17",
   "MC_Protocol",
-  "DintyB"];
+  "DintyB",
+  "VickiTori_",
+  "SimonScholar",
+  "__7d",
+  "Mojang1014"];
 
 var prevStringentry;
 
@@ -91,13 +94,33 @@ var server = http.createServer(function(request, response) {
           } 
         });*/
         console.log("Retrieving");
-        db.getAll().then(dict => {
+        MongoClient.connect(uri, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("statustracker");
+          dbo.collection("statustracker").find({}).toArray(function(err, res) {
+            if (err) throw err;
+            console.log("Retrieved")
+            let dict = {};
+            res.forEach(doc => {
+              dict[doc._id] = doc.data
+            })
+            console.log("Sorted")
+            response.writeHead(200, { 
+              'Content-Type': 'application/json' 
+            }); 
+            response.write(JSON.stringify(dict));
+            response.end();
+            db.close();
+          });
+        });
+        /*db.getAll().then(dict => {
+          console.log("Retrieved")
           response.writeHead(200, { 
             'Content-Type': 'application/json' 
           }); 
           response.write(JSON.stringify(dict));
           response.end();
-        });
+        });*/
         break;
       default: 
         response.writeHead(404); 
@@ -164,7 +187,17 @@ function update()
       console.log(entry)
       if (prevStringentry == stringentry) return;
       prevStringentry = stringentry
-      db.set(timestamp, stringentry).then(() => {});
+      /*db.set(timestamp, stringentry).then(() => {});*/
+      MongoClient.connect(uri, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("statustracker");
+        var obj = {_id: timestamp, data: stringentry};
+        dbo.collection("statustracker").insertOne(obj, function(err, res) {
+          if (err) throw err;
+          console.log("inserted");
+          db.close();
+        });
+      });
       /*fs.readFile('data/count.json', (err, data) => {
         if (err) throw err;
         let logs = JSON.parse(data);

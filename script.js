@@ -134,7 +134,7 @@ function chart(result, start, end)
       shared: true,
       contentFormatter: function(e){
         var str = e.entries[0].dataPoint.x.toLocaleString() + "<br>";
-        var pc = e.entries[0].dataPoint.y;
+        var pc = Math.round(e.entries[0].dataPoint.y*100)/100;
         if (pc.isNaN) pc = "-";
         str = str.concat(`% staff: ${pc}`);
         return (str);
