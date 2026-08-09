@@ -50,7 +50,7 @@
     "eslint-formatter-sarif": "github:iiiii7d/eslint-formatter-sarif",
     "globals": "17.9.0",
     "prettier": "3.9.6",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "typescript-eslint": "8.65.0",
     "vue-eslint-parser": "10.4.1",
     "vue-tsc": "3.3.9"
