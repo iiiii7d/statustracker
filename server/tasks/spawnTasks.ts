@@ -2,7 +2,7 @@ import cron from "node-cron";
 import logger from "#server/utils/logger.ts";
 import config from "#server/utils/config.ts";
 import updateCount from "#server/tasks/updateCount.ts";
-import webhook from "#server/tasks/webhook.ts";
+import task from "#server/tasks/webhook.ts";
 
 let tasksSpawned = false;
 
@@ -28,7 +28,7 @@ export default function spawnTasks() {
     cron.schedule(
       cronExpression,
       async () => {
-        await webhook(id);
+        await task(id);
       },
       { noOverlap: true },
     );

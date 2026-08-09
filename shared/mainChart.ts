@@ -2,20 +2,19 @@ import type * as echarts from "echarts";
 import type { CategoriesAPI, CountsAPI, PlayerAPI } from "#shared/api.ts";
 import now from "#shared/now.ts";
 
-export const movingAverages = {
-  0: "Raw",
-  1: "1h",
-  12: "12h",
-  24: "1d",
-  168: "7d",
-} as const;
-
-export type MovingAverage = keyof typeof movingAverages;
+function formatHours(h: number): string {
+  if (h === 0) return "Raw";
+  if (h < 24) return `${h}h`;
+  const days = Math.round(h % 24);
+  const remHours = Math.round(h - 24 * days);
+  if (remHours === 0) return `${days}d`;
+  return `${days}d ${remHours}h`;
+}
 
 const ALPHA = "f84210";
 
 export function getSeries(
-  counts: Map<MovingAverage, CountsAPI>,
+  counts: Map<number, CountsAPI>,
   categories: CategoriesAPI,
 ): echarts.LineSeriesOption[] {
   return (
@@ -28,7 +27,7 @@ export function getSeries(
           ...Object.entries(categories),
         ].map(([cat, { colour }]) => ({
           id: `${cat}:${ma}`,
-          name: `${cat}${ma === 0 ? "" : ` (Rolling average ${movingAverages[ma] ?? ma})`}`,
+          name: `${cat}${ma === 0 ? "" : ` (Rolling average ${formatHours(ma)})`}`,
           type: "line",
           smooth: true,
           data: m.map(

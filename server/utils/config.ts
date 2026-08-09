@@ -4,27 +4,52 @@ import { Pool, type PoolConfig } from "pg";
 import type * as dt from "@internationalized/date";
 import * as fs from "node:fs";
 import logger from "#server/utils/logger";
-import type { LaunchOptions } from "puppeteer";
+
+const webhookScheduleCommon = {
+  cron: z.string(),
+  range: z.custom<dt.DateTimeDuration>(),
+  chartDimensions: z
+    .tuple([z.number().gt(0), z.number().gt(0)])
+    .default([1920, 1080]),
+  movingAverages: z
+    .number()
+    .gte(0)
+    .array()
+    .refine((arr) => arr.length === new Set(arr).size)
+    .default([0, 1]),
+};
+const webhookScheduleHTTP = z.object({
+  type: z.literal("http"),
+  url: z.httpUrl(),
+  method: z.string().default("POST"),
+  data: z.looseObject({}).optional(),
+  ...webhookScheduleCommon,
+});
+
+const webhookScheduleDiscord = z.object({
+  type: z.literal("discord"),
+  client: z.custom<WebhookClientData>().transform((a) => new WebhookClient(a)),
+  message: z
+    .string()
+    .default(
+      "[Server activity](%url%) (%id%) for past %range%\n-# from <t:%from%:F>\n-# to <t:%to%:F>",
+    ),
+  ...webhookScheduleCommon,
+});
 
 const webhookConfigSchema = z.object({
-  client: z.custom<WebhookClientData>().transform((a) => new WebhookClient(a)),
   serverUrl: z.string(),
   schedules: z
     .record(
       z.string(),
-      z.object({
-        cron: z.string(),
-        range: z.custom<dt.DateTimeDuration>(),
-        message: z
-          .string()
-          .default(
-            "[Server activity](%url%) (%id%) for past %range%\n-# from <t:%from%:F>\n-# to <t:%to%:F>",
-          ),
-      }),
+      z.discriminatedUnion("type", [
+        webhookScheduleHTTP,
+        webhookScheduleDiscord,
+      ]),
     )
     .refine((a) => Object.keys(a).length >= 1),
-  puppeteer: z.custom<LaunchOptions & { timezone?: string }>().optional(),
 });
+
 const configSchema = z.object({
   dynmapLink: z.url(),
   db: z.custom<PoolConfig>().transform((a) => new Pool(a)),

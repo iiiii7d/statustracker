@@ -7,7 +7,6 @@ import {
 } from "#shared/api.ts";
 import { FetchError } from "ofetch";
 import type * as dt from "@internationalized/date";
-import type { MovingAverage } from "#shared/mainChart.ts";
 
 export const loading = ref(0);
 export const wrapLoading =
@@ -25,7 +24,9 @@ export const dateInvalid = computed(
   () => !from.value || !to.value || from.value.compare(to.value) >= 0,
 );
 
-export const shownMovingAverages = reactive<Record<MovingAverage, boolean>>({
+export const shownMovingAverages = reactive<
+  Record<0 | 1 | 12 | 24 | 168, boolean>
+>({
   0: true,
   1: true,
   12: false,
@@ -33,17 +34,17 @@ export const shownMovingAverages = reactive<Record<MovingAverage, boolean>>({
   168: false,
 });
 
-export const counts = shallowRef(new Map<MovingAverage, CountsAPI>());
+export const counts = shallowRef(new Map<number, CountsAPI>());
 watchDebounced(
   [from, to, shownMovingAverages],
   wrapLoading(async () => {
     if (dateInvalid.value) return;
-    counts.value = new Map<MovingAverage, CountsAPI>(
+    counts.value = new Map<number, CountsAPI>(
       await Promise.all(
         Object.entries(shownMovingAverages)
           .filter(([ma, a]) => ma === "0" || a)
           .map(async ([ma2]) => {
-            const ma = parseInt(ma2) as MovingAverage;
+            const ma = parseInt(ma2);
             const data = await $fetch("/counts", {
               query: {
                 from: from.value!.toAbsoluteString(),
@@ -51,10 +52,7 @@ watchDebounced(
                 movingAverage: ma,
               },
             });
-            return [ma, data ? countsAPI.de(data!) : []] as [
-              MovingAverage,
-              CountsAPI,
-            ];
+            return [ma, data ? countsAPI.de(data!) : []] as const;
           }),
       ),
     );

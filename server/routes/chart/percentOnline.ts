@@ -1,10 +1,10 @@
 import * as echarts from "echarts";
-import { getMainChartOption, getSeries } from "#shared/mainChart.ts";
-import { getCounts } from "#server/routes/counts.ts";
 import * as dt from "@internationalized/date";
 import now from "#shared/now.ts";
 import { z } from "zod/v4";
 import { createCanvas } from "canvas";
+import { getPercentOnlineChartOption } from "#shared/percentOnlineChart.ts";
+import { getPercentOnline } from "#server/routes/percentOnline.ts";
 
 const schema = z
   .object({
@@ -15,18 +15,6 @@ const schema = z
       .datetime({ local: false, offset: true })
       .transform((s) => dt.parseAbsoluteToLocal(s))
       .default(now().add({ minutes: 1 })),
-    movingAverages: z
-      .preprocess(
-        (a) => (typeof a === "string" ? a.split(",") : a),
-        z
-          .preprocess(
-            (a) => (typeof a === "string" ? parseInt(a) : a),
-            z.int().gte(0),
-          )
-          .array()
-          .refine((arr) => arr.length === new Set(arr).size),
-      )
-      .default([0, 1]),
     chartDimensions: z
       .tuple([z.number().gt(0), z.number().gt(0)])
       .default([1920, 1080]),
@@ -39,25 +27,17 @@ const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-export async function getMainChart({
+export async function getPercentOnlineChart({
   from,
   to,
-  movingAverages,
   chartDimensions,
 }: z.infer<typeof schema>): Promise<Buffer<ArrayBufferLike>> {
   const canvas = createCanvas(...chartDimensions);
   const chart = echarts.init(canvas);
 
-  const counts = new Map(
-    await Promise.all(
-      movingAverages.map(
-        async (ma) => [ma, await getCounts(from, to, ma)] as const,
-      ),
-    ),
-  );
-  const series = getSeries(counts, config.categories);
+  const percentages = await getPercentOnline(from, to);
+  const option = getPercentOnlineChartOption(config.categories, percentages);
 
-  const option = getMainChartOption(series);
   chart.setOption({ ...option, backgroundColor: "#111" });
   const buffer = canvas.toBuffer("image/png");
   chart.dispose();
@@ -69,5 +49,5 @@ export default defineEventHandler(async (event) => {
 
   const inputs = await getValidatedQuery(event, (body) => schema.parse(body));
 
-  return getMainChart(inputs);
+  return getPercentOnlineChart(inputs);
 });

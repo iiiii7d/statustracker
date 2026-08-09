@@ -22,13 +22,11 @@ const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-export default defineEventHandler(async (event): Promise<PercentOnlineAPI> => {
-  logger.verbose(`Processing ${event.path}`);
+export async function getPercentOnline(
+  from: dt.ZonedDateTime,
+  to: dt.ZonedDateTime,
+): Promise<PercentOnlineAPI> {
   const db = await getDB();
-
-  const { from, to } = await getValidatedQuery(event, (body) =>
-    schema.parse(body),
-  );
 
   const result: { category: "all" | string; percentage: number }[] = await db
     .selectFrom("counts")
@@ -56,4 +54,14 @@ export default defineEventHandler(async (event): Promise<PercentOnlineAPI> => {
   return Object.fromEntries(
     result.map(({ category, percentage }) => [category, percentage] as const),
   );
+}
+
+export default defineEventHandler(async (event): Promise<PercentOnlineAPI> => {
+  logger.verbose(`Processing ${event.path}`);
+
+  const { from, to } = await getValidatedQuery(event, (body) =>
+    schema.parse(body),
+  );
+
+  return getPercentOnline(from, to);
 });
