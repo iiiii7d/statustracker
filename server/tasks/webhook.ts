@@ -3,18 +3,21 @@ import now from "#shared/now";
 import config from "#server/utils/config";
 import { getMainChart } from "#server/routes/chart/main.ts";
 import { getPercentOnlineChart } from "#server/routes/chart/percentOnline.ts";
-import type * as dt from "@internationalized/date"
+import type * as dt from "@internationalized/date";
 
-export function formatMessage(input: string, params: {
-  from: dt.ZonedDateTime,
-  to: dt.ZonedDateTime,
-  id: string,
-  webhook: NonNullable<Config["webhooks"]>["schedules"][string]
-}): string {
+export function formatMessage(
+  input: string,
+  params: {
+    from: dt.ZonedDateTime;
+    to: dt.ZonedDateTime;
+    id: string;
+    webhook: NonNullable<Config["webhooks"]>["schedules"][string];
+  },
+): string {
   return input
     .replaceAll(
-    "%url%",
-    `${config.webhooks!.serverUrl}?from=${params.from.toAbsoluteString()}&to=${params.to.toAbsoluteString()}`,
+      "%url%",
+      `${config.webhooks!.serverUrl}?from=${params.from.toAbsoluteString()}&to=${params.to.toAbsoluteString()}`,
     )
     .replaceAll("%id%", params.id)
     .replaceAll("%range%", `${params.webhook.range}`)
@@ -25,7 +28,7 @@ export function formatMessage(input: string, params: {
     .replaceAll(
       "%to%",
       Math.round(params.to.toDate().getTime() / 1000).toString(),
-    )
+    );
 }
 
 // eslint-disable-next-line max-lines-per-function,max-statements
