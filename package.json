@@ -35,7 +35,7 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@nuxt/eslint": "1.16.0",
-    "@types/pg": "8.20.4",
+    "@types/pg": "8.21.0",
     "eslint": "10.8.0",
     "eslint-config-flat-gitignore": "2.3.0",
     "eslint-config-prettier": "10.1.8",
