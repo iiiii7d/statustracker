@@ -22,7 +22,7 @@
     "gen-licenses": "pnpm licenses ls --long -P > public/licenses.txt"
   },
   "dependencies": {
-    "@iconify-json/lucide": "1.2.122",
+    "@iconify-json/lucide": "1.2.123",
     "@internationalized/date": "3.12.3",
     "@nuxt/ui": "4.10.0",
     "@tsconfig/strictest": "2.0.8",
