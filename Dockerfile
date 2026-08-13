@@ -34,6 +34,8 @@ RUN curl https://mise.run | sh
 COPY .config .config
 RUN mise trust && mise install --system
 
+ENV PUPPETEER_SKIP_DOWNLOAD="true"
+
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm i -P
 

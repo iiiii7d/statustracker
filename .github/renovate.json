@@ -4,6 +4,7 @@
     "github>iiiii7d/renovate-config",
     ":pinAllExceptPeerDependencies"
   ],
+  "baseBranchPatterns": ["v4", "dev", "$default"],
   "packageRules": [
     {
       "matchPackageNames": [
