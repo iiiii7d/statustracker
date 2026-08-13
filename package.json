@@ -37,7 +37,7 @@
     "tailwindcss": "4.3.3",
     "tslib": "2.8.1",
     "vue": "3.5.41",
-    "vue-echarts": "8.0.1",
+    "vue-echarts": "8.1.0",
     "zod": "4.4.3"
   },
   "devDependencies": {
