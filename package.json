@@ -40,7 +40,7 @@
     "eslint-config-flat-gitignore": "2.3.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-formatter-sarif": "github:iiiii7d/eslint-formatter-sarif",
-    "globals": "17.8.0",
+    "globals": "17.9.0",
     "prettier": "3.9.6",
     "typescript": "6.0.3",
     "typescript-eslint": "8.66.0",
