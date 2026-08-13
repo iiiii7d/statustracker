@@ -46,7 +46,7 @@ export async function getMainChart({
   chartDimensions,
 }: z.infer<typeof schema>): Promise<Buffer<ArrayBufferLike>> {
   const canvas = createCanvas(...chartDimensions);
-  const chart = echarts.init(canvas);
+  const chart = echarts.init(canvas as never);
 
   const counts = new Map(
     await Promise.all(

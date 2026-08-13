@@ -33,7 +33,7 @@ export async function getPercentOnlineChart({
   chartDimensions,
 }: z.infer<typeof schema>): Promise<Buffer<ArrayBufferLike>> {
   const canvas = createCanvas(...chartDimensions);
-  const chart = echarts.init(canvas);
+  const chart = echarts.init(canvas as never);
 
   const percentages = await getPercentOnline(from, to);
   const option = getPercentOnlineChartOption(config.categories, percentages);

@@ -77,6 +77,7 @@ export default async function task(id: string) {
       break;
     }
     case "http":
+      // eslint-disable-next-line no-warning-comments
       // todo
       break;
     default:
