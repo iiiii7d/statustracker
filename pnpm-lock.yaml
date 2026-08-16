@@ -93,8 +93,8 @@ importers:
         version: 3.3.9(typescript@6.0.3)
     optionalDependencies:
       cron-parser:
-        specifier: 5.8.1
-        version: 5.8.1
+        specifier: 5.9.0
+        version: 5.9.0
       discord.js:
         specifier: 14.27.0
         version: 14.27.0
@@ -1831,8 +1831,8 @@ packages:
     resolution: {integrity: sha512-piICUB6ei4IlTv1+653yq5+KoqfBYmj9bw6LqXoOneTMDXk5nM1qt12mFW1caG3LlJXEKW1Bp0WggEmIfQB34g==}
     engines: {node: '>= 14'}
 
-  cron-parser@5.8.1:
-    resolution: {integrity: sha512-fVw5nGEkTVmiPKo3fY0j28Thq6jR00VKWyL22llWrsbII4sDHI+8Kx1kcL+QzGQJfCfk64bbMotrgTZRpzYpLQ==}
+  cron-parser@5.9.0:
+    resolution: {integrity: sha512-W42Tm/zNt2Z3HTXDoev3nrx+SF3eCaD1rFecnHx0zgwrzhO9I6EcKeB35XaV4FDX64wBXWFbhYLTPvQpvpR1lA==}
     engines: {node: '>=18'}
 
   croner@10.0.1:
@@ -6249,7 +6249,7 @@ snapshots:
       crc-32: 1.2.2
       readable-stream: 4.7.0
 
-  cron-parser@5.8.1:
+  cron-parser@5.9.0:
     dependencies:
       luxon: 3.7.2
     optional: true
