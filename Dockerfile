@@ -27,7 +27,7 @@ ENV MISE_CACHE_DIR="/mise/cache"
 ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
 ENV PATH="/mise/shims:$PATH"
 # renovate: datasource=github-tags depName=jdx/mise
-ENV MISE_VERSION="v2026.8.4"
+ENV MISE_VERSION="v2026.8.5"
 ENV MISE_ENV=""
 RUN curl https://mise.run | sh
 
