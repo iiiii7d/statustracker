@@ -50,7 +50,7 @@
   "optionalDependencies": {
     "cron-parser": "5.9.0",
     "discord.js": "14.27.0",
-    "puppeteer": "25.6.0"
+    "puppeteer": "25.7.0"
   },
   "overrides": {
     "readdir-glob": "3.0.0",
