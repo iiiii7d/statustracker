@@ -4,6 +4,8 @@ allowBuilds:
   puppeteer: true
   unrs-resolver: true
 minimumReleaseAge: 4320
+minimumReleaseAgeExclude:
+  - '@_7d/eslint-formatter-sarif@1.0.1'
 minimumReleaseAgeStrict: false
 overrides:
   readdir-glob: 3.0.0

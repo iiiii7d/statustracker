@@ -12,7 +12,7 @@
     "type-check": "nuxt typecheck",
     "lint": "eslint ${@:-.}",
     "lint:fix": "eslint --fix ${@:-.}",
-    "lint:sarif": "eslint -f eslint-formatter-sarif --fix ${@:-.} || true",
+    "lint:sarif": "eslint -f @_7d/eslint-formatter-sarif --fix ${@:-.} || true",
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}",
     "gen-licenses": "pnpm licenses ls --long -P > public/licenses.txt"
@@ -33,13 +33,13 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
+    "@_7d/eslint-formatter-sarif": "1.0.1",
     "@eslint/js": "10.0.1",
     "@nuxt/eslint": "1.17.0",
     "@types/pg": "8.21.0",
     "eslint": "10.8.1",
     "eslint-config-flat-gitignore": "2.3.0",
     "eslint-config-prettier": "10.1.8",
-    "eslint-formatter-sarif": "github:iiiii7d/eslint-formatter-sarif",
     "globals": "17.11.0",
     "prettier": "3.9.6",
     "typescript": "6.0.3",

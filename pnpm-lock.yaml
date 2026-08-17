@@ -52,6 +52,9 @@ importers:
         specifier: 4.4.3
         version: 4.4.3
     devDependencies:
+      '@_7d/eslint-formatter-sarif':
+        specifier: 1.0.1
+        version: 1.0.1
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.8.1(jiti@2.7.0)(supports-color@10.2.2))
@@ -70,9 +73,6 @@ importers:
       eslint-config-prettier:
         specifier: 10.1.8
         version: 10.1.8(eslint@10.8.1(jiti@2.7.0)(supports-color@10.2.2))
-      eslint-formatter-sarif:
-        specifier: github:iiiii7d/eslint-formatter-sarif
-        version: https://codeload.github.com/iiiii7d/eslint-formatter-sarif/tar.gz/195b12302095e02ee933e671a2f542b4add3eaf9
       globals:
         specifier: 17.11.0
         version: 17.11.0
@@ -103,6 +103,9 @@ importers:
         version: 25.7.0
 
 packages:
+
+  '@_7d/eslint-formatter-sarif@1.0.1':
+    resolution: {integrity: sha512-yjgWACoWSAafMjt1K6lFSp8EHhftqiyFe0tbhu7TibEmqs3XaDivb/JuriGBHcEYpLBK7pfPK4sZs49/hN5gWQ==}
 
   '@antfu/install-pkg@2.0.1':
     resolution: {integrity: sha512-iCKVQcIC0e3oDxEfs3SHQGW+ovhBMZmS1TE+bTk50rVyMCBmCfClv7Qi3HQKlumYwvjb/iIMeWCW2i67q6kFfQ==}
@@ -2104,10 +2107,6 @@ packages:
 
   eslint-flat-config-utils@3.2.0:
     resolution: {integrity: sha512-PHgo1X5uqIorJONLVD9BIaOSdoYFD3z/AeJljdqDPlWVRpeCYkDbK9k0AXoYVqqNJr6FEYIEr5Rm2TSktLQcHw==}
-
-  eslint-formatter-sarif@https://codeload.github.com/iiiii7d/eslint-formatter-sarif/tar.gz/195b12302095e02ee933e671a2f542b4add3eaf9:
-    resolution: {gitHosted: true, integrity: sha512-NBpJElQ9Nm/NqZCBZQa7aOYIkD9bp/8QGD/WLqZ+kHXdSQ+W1w7+TuYxveEMvX7jFAetsW9pEvBDT3GOT1kYpg==, tarball: https://codeload.github.com/iiiii7d/eslint-formatter-sarif/tar.gz/195b12302095e02ee933e671a2f542b4add3eaf9}
-    version: 1.0.0
 
   eslint-import-context@0.1.9:
     resolution: {integrity: sha512-K9Hb+yRaGAGUbwjhFNHvSmmkZs9+zbuoe3kFQ4V1wYjrepUFYM2dZAfNtjbbj3qsPfUfsA68Bx/ICWQMi+C8Eg==}
@@ -4301,6 +4300,8 @@ packages:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
 snapshots:
+
+  '@_7d/eslint-formatter-sarif@1.0.1': {}
 
   '@antfu/install-pkg@2.0.1':
     dependencies:
@@ -6522,8 +6523,6 @@ snapshots:
     dependencies:
       '@eslint/config-helpers': 0.5.5
       pathe: 2.0.3
-
-  eslint-formatter-sarif@https://codeload.github.com/iiiii7d/eslint-formatter-sarif/tar.gz/195b12302095e02ee933e671a2f542b4add3eaf9: {}
 
   eslint-import-context@0.1.9(unrs-resolver@1.12.2):
     dependencies:
