@@ -45,7 +45,7 @@
     "typescript": "6.0.3",
     "typescript-eslint": "8.67.0",
     "vue-eslint-parser": "10.4.1",
-    "vue-tsc": "3.3.9"
+    "vue-tsc": "3.3.10"
   },
   "optionalDependencies": {
     "cron-parser": "5.9.0",
