@@ -1,7 +1,7 @@
 # StatusTracker 4
 
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/iiiii7d/statustracker4?include_prereleases)
-![GitHub License](https://img.shields.io/github/license/iiiii7d/statustracker4)
+![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/iiiii7d/statustracker?include_prereleases)
+![GitHub License](https://img.shields.io/github/license/iiiii7d/statustracker)
 
 Track players on a Minecraft server through their [Dynmap](https://www.spigotmc.org/resources/dynmap%C2%AE.274/)
 
