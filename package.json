@@ -36,7 +36,7 @@
     "@_7d/eslint-formatter-sarif": "1.0.1",
     "@eslint/js": "10.0.1",
     "@nuxt/eslint": "1.17.0",
-    "@types/pg": "8.21.0",
+    "@types/pg": "8.23.1",
     "eslint": "10.8.1",
     "eslint-config-flat-gitignore": "2.3.0",
     "eslint-config-prettier": "10.1.8",
