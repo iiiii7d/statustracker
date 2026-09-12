@@ -38,7 +38,7 @@
     "tslib": "2.8.1",
     "vue": "3.5.42",
     "vue-echarts": "8.3.0",
-    "zod": "4.5.4"
+    "zod": "4.6.0"
   },
   "devDependencies": {
     "@_7d/eslint-formatter-sarif": "1.0.1",
