@@ -26,7 +26,7 @@
     "@internationalized/date": "3.12.4",
     "@nuxt/ui": "4.11.1",
     "@tsconfig/strictest": "2.0.8",
-    "@vueuse/nuxt": "14.4.0",
+    "@vueuse/nuxt": "15.0.0",
     "canvas": "3.2.3",
     "consola": "3.4.2",
     "echarts": "6.1.0",
