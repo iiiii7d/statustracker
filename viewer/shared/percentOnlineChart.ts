@@ -1,5 +1,5 @@
 import type * as echarts from "echarts";
-import type { CategoriesAPI, PercentOnlineAPI } from "#shared/api.ts";
+import type { CategoriesAPI, PercentOnlineAPI } from "./api.ts";
 
 export function getPercentOnlineChartOption(
   categories: CategoriesAPI,

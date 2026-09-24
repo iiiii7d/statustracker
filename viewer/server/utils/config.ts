@@ -3,7 +3,7 @@ import { WebhookClient, type WebhookClientData } from "discord.js";
 import { Pool, type PoolConfig } from "pg";
 import type * as dt from "@internationalized/date";
 import * as fs from "node:fs";
-import logger from "#server/utils/logger";
+import logger from "#server/utils/logger.ts";
 
 const webhookScheduleCommon = {
   cron: z.string(),

@@ -1,7 +1,7 @@
 import { type Database, getDB } from "#server/db";
 import { sql, type Transaction } from "kysely";
-import logger from "#server/utils/logger";
-import config from "#server/utils/config";
+import logger from "#server/utils/logger.ts";
+import config from "#server/utils/config.ts";
 import { nameToUUID, currentTimestamp, previousTimestamp } from "#server/utils";
 
 async function currentPlayerList(): Promise<string[]> {

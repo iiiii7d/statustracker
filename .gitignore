@@ -300,5 +300,5 @@ node_modules
 
 ### Other
 .idea
-public/licenses.txt
+viewer/public/licenses.txt
 .sarif

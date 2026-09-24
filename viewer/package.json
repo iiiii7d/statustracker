@@ -1,0 +1,47 @@
+{
+  "name": "statustracker4-viewer",
+  "version": "4.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "type-check": "nuxt typecheck",
+    "lint": "eslint ${@:-.}",
+    "lint:fix": "eslint --fix ${@:-.}",
+    "lint:sarif": "eslint -f @_7d/eslint-formatter-sarif --fix ${@:-.} || true",
+    "format": "prettier --write ${@:-.}",
+    "format:check": "prettier --check ${@:-.}",
+    "gen-licenses": "pnpm licenses ls --long -P > public/licenses.txt"
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "1.2.135",
+    "@internationalized/date": "3.12.4",
+    "@nuxt/ui": "4.11.1",
+    "@tsconfig/strictest": "2.0.8",
+    "@vueuse/nuxt": "15.0.0",
+    "canvas": "3.2.3",
+    "consola": "3.4.2",
+    "echarts": "6.1.0",
+    "kysely": "0.29.6",
+    "node-cron": "4.6.0",
+    "nuxt": "4.5.2",
+    "pg": "8.23.0",
+    "tailwindcss": "4.3.3",
+    "tslib": "2.8.1",
+    "vue": "3.5.43",
+    "vue-echarts": "8.3.0",
+    "zod": "4.6.5"
+  },
+  "optionalDependencies": {
+    "discord.js": "14.27.0"
+  },
+  "overrides": {
+    "readdir-glob": "3.0.0",
+    "glob": "13.0.6"
+  },
+  "packageManager": "pnpm@12.5.1"
+}

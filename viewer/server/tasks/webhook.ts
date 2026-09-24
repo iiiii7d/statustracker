@@ -1,6 +1,6 @@
 import { AttachmentBuilder } from "discord.js";
-import now from "#shared/now";
-import config from "#server/utils/config";
+import now from "#shared/now.ts";
+import config from "#server/utils/config.ts";
 import { getMainChart } from "#server/routes/chart/main.ts";
 import { getPercentOnlineChart } from "#server/routes/chart/percentOnline.ts";
 import type * as dt from "@internationalized/date";

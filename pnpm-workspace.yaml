@@ -1,14 +1,18 @@
 allowBuilds:
-  '@parcel/watcher': true
+  "@parcel/watcher": true
   canvas: true
   esbuild: true
   puppeteer: true
   unrs-resolver: true
   vue-demi: true
+
 minimumReleaseAge: 4320
-minimumReleaseAgeExclude:
-  - '@_7d/eslint-formatter-sarif@1.0.1'
 minimumReleaseAgeStrict: false
+
 overrides:
   readdir-glob: 3.0.0
   glob: 13.0.6
+
+packages:
+  - viewer
+sharedWorkspaceLockfile: false

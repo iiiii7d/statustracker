@@ -1,6 +1,6 @@
 import { sql } from "kysely";
 import type * as dt from "@internationalized/date";
-import logger from "#server/utils/logger";
+import logger from "#server/utils/logger.ts";
 
 export const currentTimestamp = sql<dt.ZonedDateTime>`date_trunc('minute', now())`;
 export const previousTimestamp = sql<dt.ZonedDateTime>`date_trunc('minute', now() - INTERVAL '1 minute')`;

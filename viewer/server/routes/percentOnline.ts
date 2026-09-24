@@ -1,7 +1,7 @@
 import { getDB } from "#server/db";
 import { z } from "zod/v4";
 import * as dt from "@internationalized/date";
-import now from "#shared/now";
+import now from "#shared/now.ts";
 import type { PercentOnlineAPI } from "#shared/api.ts";
 
 const schema = z

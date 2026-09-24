@@ -28,7 +28,7 @@ local linters = new Mapping<String, Step> {
 local type_checkers = new Mapping<String, Step> {
     ["type_check"] {
         glob = Builtins.eslint.glob
-        check = "pnpm run type-check"
+        check = "cd viewer && pnpm run type-check"
     }
 }
 local sarif = new Mapping<String, Step> {

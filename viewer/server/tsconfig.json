@@ -1,6 +1,6 @@
 {
   "extends": [
-    "../.nuxt/tsconfig.server.json",
+    "./.nuxt/tsconfig.server.json",
     "@tsconfig/strictest/tsconfig.json"
   ],
   "compilerOptions": {

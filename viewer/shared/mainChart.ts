@@ -1,6 +1,6 @@
 import type * as echarts from "echarts";
-import type { CategoriesAPI, CountsAPI, PlayerAPI } from "#shared/api.ts";
-import now from "#shared/now.ts";
+import type { CategoriesAPI, CountsAPI, PlayerAPI } from "./api.ts";
+import now from "./now.ts";
 
 function formatHours(h: number): string {
   if (h === 0) return "Raw";

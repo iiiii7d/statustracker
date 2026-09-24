@@ -7,7 +7,7 @@ import prettierConfig from "eslint-config-prettier";
 import tseslint from "typescript-eslint";
 import vueParser from "vue-eslint-parser";
 import gitignore from "eslint-config-flat-gitignore";
-import withNuxt from "./.nuxt/eslint.config.mjs";
+import withNuxt from "./viewer/.nuxt/eslint.config.mjs";
 
 export default withNuxt(
   gitignore(),
