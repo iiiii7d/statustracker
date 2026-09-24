@@ -15,10 +15,10 @@
     "lint:sarif": "eslint -f @_7d/eslint-formatter-sarif --fix ${@:-.} || true",
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}",
-    "db:up": "docker-compose -f pg-compose.yml up -d",
-    "db:down": "docker-compose -f pg-compose.yml down",
-    "db:psql": "docker-compose -f pg-compose.yml exec postgres psql -U postgres -d statustracker4",
-    "db:logs": "docker-compose -f pg-compose.yml logs",
+    "db:up": "docker-compose up -d",
+    "db:down": "docker-compose down",
+    "db:psql": "docker-compose exec postgres psql -U statustracker -d statustracker",
+    "db:logs": "docker-compose logs",
     "gen-licenses": "pnpm licenses ls --long -P > public/licenses.txt"
   },
   "dependencies": {
