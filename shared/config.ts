@@ -1,9 +1,8 @@
 import { z } from "zod/v4";
-import { WebhookClient, type WebhookClientData } from "discord.js";
 import { Pool, type PoolConfig } from "pg";
 import type * as dt from "@internationalized/date";
 import * as fs from "node:fs";
-import logger from "#server/utils/logger.ts";
+import logger from "./logger.ts";
 
 const webhookScheduleCommon = {
   cron: z.string(),
@@ -26,16 +25,16 @@ const webhookScheduleHTTP = z.object({
   ...webhookScheduleCommon,
 });
 
-const webhookScheduleDiscord = z.object({
-  type: z.literal("discord"),
-  client: z.custom<WebhookClientData>().transform((a) => new WebhookClient(a)),
-  message: z
-    .string()
-    .default(
-      "[Server activity](%url%) (%id%) for past %range%\n-# from <t:%from%:F>\n-# to <t:%to%:F>",
-    ),
-  ...webhookScheduleCommon,
-});
+// const webhookScheduleDiscord = z.object({
+//   type: z.literal("discord"),
+//   client: z.custom<WebhookClientData>().transform((a) => new WebhookClient(a)),
+//   message: z
+//     .string()
+//     .default(
+//       "[Server activity](%url%) (%id%) for past %range%\n-# from <t:%from%:F>\n-# to <t:%to%:F>",
+//     ),
+//   ...webhookScheduleCommon,
+// });
 
 const webhookConfigSchema = z.object({
   serverUrl: z.string(),
@@ -44,7 +43,7 @@ const webhookConfigSchema = z.object({
       z.string(),
       z.discriminatedUnion("type", [
         webhookScheduleHTTP,
-        webhookScheduleDiscord,
+        // webhookScheduleDiscord,
       ]),
     )
     .refine((a) => Object.keys(a).length >= 1),

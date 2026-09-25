@@ -1,10 +1,8 @@
-import * as echarts from "echarts";
-import { getMainChartOption, getSeries } from "#shared/mainChart.ts";
-import { getCounts } from "#server/routes/counts.ts";
 import * as dt from "@internationalized/date";
-import now from "#shared/now.ts";
+import { now } from "shared/index.ts";
 import { z } from "zod/v4";
-import { createCanvas } from "canvas";
+import { getMainChart } from "shared/db/chart/main.ts";
+import logger from "shared/logger.ts";
 
 const schema = z
   .object({
@@ -39,35 +37,13 @@ const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-export async function getMainChart({
-  from,
-  to,
-  movingAverages,
-  chartDimensions,
-}: z.infer<typeof schema>): Promise<Buffer<ArrayBufferLike>> {
-  const canvas = createCanvas(...chartDimensions);
-  const chart = echarts.init(canvas as never);
-
-  const counts = new Map(
-    await Promise.all(
-      movingAverages.map(
-        async (ma) => [ma, await getCounts(from, to, ma)] as const,
-      ),
-    ),
-  );
-  const series = getSeries(counts, config.categories);
-
-  const option = getMainChartOption(series);
-  chart.setOption({ ...option, backgroundColor: "#111" });
-  const buffer = canvas.toBuffer("image/png");
-  chart.dispose();
-  return buffer;
-}
-
 export default defineEventHandler(async (event) => {
   logger.verbose(`Processing ${event.path}`);
 
-  const inputs = await getValidatedQuery(event, (body) => schema.parse(body));
+  const { from, to, movingAverages, chartDimensions } = await getValidatedQuery(
+    event,
+    (body) => schema.parse(body),
+  );
 
-  return getMainChart(inputs);
+  return getMainChart(from, to, movingAverages, chartDimensions);
 });

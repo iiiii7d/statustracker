@@ -14,7 +14,20 @@
     "db:psql": "docker-compose exec postgres psql -U statustracker -d statustracker",
     "db:logs": "docker-compose logs"
   },
-  "dependencies": {},
+  "files": [
+    "shared",
+    "tsconfig.json"
+  ],
+  "dependencies": {
+    "@internationalized/date": "3.12.4",
+    "@tsconfig/strictest": "2.0.8",
+    "canvas": "3.2.3",
+    "consola": "3.4.2",
+    "echarts": "6.1.0",
+    "kysely": "0.29.6",
+    "pg": "8.23.0",
+    "zod": "4.6.5"
+  },
   "devDependencies": {
     "@_7d/eslint-formatter-sarif": "1.0.1",
     "@eslint/js": "10.0.1",

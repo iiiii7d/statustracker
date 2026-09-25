@@ -1,6 +1,7 @@
 import { sql } from "kysely";
-import type * as dt from "@internationalized/date";
-import logger from "#server/utils/logger.ts";
+import * as dt from "@internationalized/date";
+import logger from "./logger.ts";
+import config from "./config.ts";
 
 export const currentTimestamp = sql<dt.ZonedDateTime>`date_trunc('minute', now())`;
 export const previousTimestamp = sql<dt.ZonedDateTime>`date_trunc('minute', now() - INTERVAL '1 minute')`;
@@ -22,4 +23,14 @@ export async function nameToUUID(name: string): Promise<string | null> {
   cache.set(name, uuid);
   logger.verbose(`Found that \`${name}\` has UUID \`${uuid}\``);
   return uuid;
+}
+
+export function now(): dt.ZonedDateTime {
+  return dt.now(dt.getLocalTimeZone());
+}
+
+export function hhmm(datetime: dt.AnyTime): string {
+  const hour = datetime.hour.toString().padStart(2, "0");
+  const minute = datetime.minute.toString().padStart(2, "0");
+  return `${hour}:${minute}`;
 }

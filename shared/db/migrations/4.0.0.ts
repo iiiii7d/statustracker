@@ -1,6 +1,8 @@
 import type { Migration } from "kysely/migration";
-import type { Database } from "#server/db";
+import type { Database } from "../index";
 import { type Kysely, sql } from "kysely";
+import logger from "../../logger";
+import { currentTimestamp } from "../../index";
 
 export default {
   // eslint-disable-next-line max-lines-per-function

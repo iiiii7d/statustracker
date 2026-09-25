@@ -1,12 +1,10 @@
-import * as echarts from "echarts";
 import * as dt from "@internationalized/date";
-import now from "#shared/now.ts";
+import { now } from "shared";
 import { z } from "zod/v4";
-import { createCanvas } from "canvas";
-import { getPercentOnlineChartOption } from "#shared/percentOnlineChart.ts";
-import { getPercentOnline } from "#server/routes/percentOnline.ts";
+import { getPercentOnlineChart } from "shared/db/chart/percentOnline.ts";
+import logger from "shared/logger.ts";
 
-const schema = z
+export const schema = z
   .object({
     from: z.iso
       .datetime({ local: false, offset: true })
@@ -27,27 +25,12 @@ const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-export async function getPercentOnlineChart({
-  from,
-  to,
-  chartDimensions,
-}: z.infer<typeof schema>): Promise<Buffer<ArrayBufferLike>> {
-  const canvas = createCanvas(...chartDimensions);
-  const chart = echarts.init(canvas as never);
-
-  const percentages = await getPercentOnline(from, to);
-  const option = getPercentOnlineChartOption(config.categories, percentages);
-
-  chart.setOption({ ...option, backgroundColor: "#111" });
-  const buffer = canvas.toBuffer("image/png");
-  chart.dispose();
-  return buffer;
-}
-
 export default defineEventHandler(async (event) => {
   logger.verbose(`Processing ${event.path}`);
 
-  const inputs = await getValidatedQuery(event, (body) => schema.parse(body));
+  const { from, to, chartDimensions } = await getValidatedQuery(event, (body) =>
+    schema.parse(body),
+  );
 
-  return getPercentOnlineChart(inputs);
+  return getPercentOnlineChart(from, to, chartDimensions);
 });

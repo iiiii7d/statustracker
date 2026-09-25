@@ -15,4 +15,5 @@ overrides:
 
 packages:
   - viewer
+  - tracker
 sharedWorkspaceLockfile: false

@@ -13,7 +13,7 @@ import {
   getMainChartOption,
   getPlayTimes,
   getSeries,
-} from "#shared/mainChart.ts";
+} from "shared/db/chart/main.ts";
 
 use([
   GridComponent,

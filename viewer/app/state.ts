@@ -4,7 +4,7 @@ import {
   type PercentOnlineAPI,
   playerAPI,
   type PlayerAPI,
-} from "#shared/api.ts";
+} from "shared/api.ts";
 import { FetchError } from "ofetch";
 import type * as dt from "@internationalized/date";
 

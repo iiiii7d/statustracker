@@ -9,8 +9,8 @@ import {
 import { type Migration, Migrator } from "kysely/migration";
 import { types as pgTypes } from "pg";
 import * as dt from "@internationalized/date";
-import config from "#server/utils/config";
-import logger from "#server/utils/logger";
+import config from "../config.ts";
+import logger from "../logger.ts";
 
 export interface CountTable {
   timestamp: Generated<dt.ZonedDateTime>;
@@ -63,15 +63,16 @@ export async function getDB(): Promise<Kysely<Database>> {
   }
   return db;
 }
+export default getDB();
 
-(async () => {
+export async function migrateDB() {
   const migrator = new Migrator({
     db,
     provider: {
       async getMigrations(): Promise<Record<string, Migration>> {
         return {
-          "000000000": (await import("#server/db/migrations/3.ts")).default,
-          "000000001": (await import("#server/db/migrations/4.0.0.ts")).default,
+          "000000000": (await import("./migrations/3")).default,
+          "000000001": (await import("./migrations/4.0.0")).default,
         };
       },
     },
@@ -94,4 +95,4 @@ export async function getDB(): Promise<Kysely<Database>> {
 
   logger.start("DB ready");
   dbReady = true;
-})();
+}

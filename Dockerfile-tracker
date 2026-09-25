@@ -34,21 +34,20 @@ RUN curl https://mise.run | sh
 COPY ./.config .config
 RUN mise trust && mise install && eval "$(mise activate bash)"
 
-COPY viewer/package.json viewer/pnpm-lock.yaml pnpm-workspace.yaml ./
-WORKDIR /app/viewer
+COPY tracker/package.json tracker/pnpm-lock.yaml pnpm-workspace.yaml ./
+WORKDIR /app/tracker
 RUN pnpm i -P
 
-COPY viewer/ .
+COPY tracker/ .
 COPY shared/ ../shared
 COPY tsconfig.json ..
-RUN pnpm run gen-licenses && pnpm run build
+RUN pnpm run build
 
 
 FROM node:26.9.0-slim@sha256:3a771f83944bb763050c23c0225c260638c4b7899e7a72485ef75e5e570499e5
 WORKDIR /app
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
-COPY --from=build /app/viewer/.output/ ./
-EXPOSE 3000
+COPY --from=build app/tracker/dist/ ./
 ENV DOCKER=true
-CMD ["node", "./server/index.mjs"]
+CMD ["node", "./tracker.js"]

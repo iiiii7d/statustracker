@@ -1,8 +1,12 @@
-import { type Database, getDB } from "#server/db";
+import { type Database, getDB } from "shared/db/index.ts";
 import { sql, type Transaction } from "kysely";
-import logger from "#server/utils/logger.ts";
-import config from "#server/utils/config.ts";
-import { nameToUUID, currentTimestamp, previousTimestamp } from "#server/utils";
+import logger from "shared/logger.ts";
+import config from "shared/config.ts";
+import {
+  nameToUUID,
+  currentTimestamp,
+  previousTimestamp,
+} from "shared/index.ts";
 
 async function currentPlayerList(): Promise<string[]> {
   logger.info(`Retrieving current player list from ${config.dynmapLink}`);

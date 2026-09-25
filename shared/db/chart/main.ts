@@ -1,6 +1,10 @@
-import type * as echarts from "echarts";
-import type { CategoriesAPI, CountsAPI, PlayerAPI } from "./api.ts";
-import now from "./now.ts";
+import * as echarts from "echarts";
+import type { CategoriesAPI, CountsAPI, PlayerAPI } from "../../api.ts";
+import { hhmm, now } from "../../index.ts";
+import { getCounts } from "../counts.ts";
+import { createCanvas } from "canvas";
+import type * as dt from "@internationalized/date";
+import config from "../../config.ts";
 
 function formatHours(h: number): string {
   if (h === 0) return "Raw";
@@ -113,4 +117,30 @@ export function getMainChartOption(
       },
     ],
   };
+}
+
+// eslint-disable-next-line max-params
+export async function getMainChart(
+  from: dt.ZonedDateTime,
+  to: dt.ZonedDateTime,
+  movingAverages: number[],
+  chartDimensions: [number, number],
+): Promise<Buffer<ArrayBufferLike>> {
+  const canvas = createCanvas(...chartDimensions);
+  const chart = echarts.init(canvas as never);
+
+  const counts = new Map(
+    await Promise.all(
+      movingAverages.map(
+        async (ma) => [ma, await getCounts(from, to, ma)] as const,
+      ),
+    ),
+  );
+  const series = getSeries(counts, config.categories);
+
+  const option = getMainChartOption(series);
+  chart.setOption({ ...option, backgroundColor: "#111" });
+  const buffer = canvas.toBuffer("image/png");
+  chart.dispose();
+  return buffer;
 }

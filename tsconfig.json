@@ -1,0 +1,7 @@
+{
+  "extends": ["@tsconfig/strictest"],
+  "compilerOptions": {
+    "noPropertyAccessFromIndexSignature": false,
+    "allowImportingTsExtensions": true
+  }
+}

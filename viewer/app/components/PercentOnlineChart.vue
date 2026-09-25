@@ -4,7 +4,7 @@ import { BarChart } from "echarts/charts";
 import { GridComponent, TitleComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart, { THEME_KEY } from "vue-echarts";
-import { getPercentOnlineChartOption } from "#shared/percentOnlineChart.ts";
+import { getPercentOnlineChartOption } from "shared/db/chart/percentOnline.ts";
 import { percentages } from "~/state.ts";
 
 use([GridComponent, BarChart, TitleComponent, CanvasRenderer]);

@@ -23,6 +23,7 @@ export default withNuxt(
       parser: vueParser,
       parserOptions: {
         parser: tseslint.parser,
+        projectService: true,
       },
     },
     rules: {
