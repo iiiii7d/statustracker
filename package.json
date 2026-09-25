@@ -24,7 +24,7 @@
   "dependencies": {
     "@iconify-json/lucide": "1.2.135",
     "@internationalized/date": "3.12.4",
-    "@nuxt/ui": "4.11.1",
+    "@nuxt/ui": "4.11.2",
     "@tsconfig/strictest": "2.0.8",
     "@vueuse/nuxt": "15.0.0",
     "canvas": "3.2.3",
