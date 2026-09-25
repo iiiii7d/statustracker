@@ -39,5 +39,5 @@ runs:
         path: |
           ~/.local/share/pnpm
           **/node_modules
-          .nuxt
+          viewer/.nuxt
         key: pnpm-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
