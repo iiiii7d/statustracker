@@ -9,6 +9,7 @@
     "lint:sarif": "eslint -f @_7d/eslint-formatter-sarif --fix ${@:-.} || true",
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}",
+    "type-check": "pnpm run -r type-check",
     "db:up": "docker-compose up -d",
     "db:down": "docker-compose down",
     "db:psql": "docker-compose exec postgres psql -U statustracker -d statustracker",

@@ -1,7 +1,9 @@
 {
   "extends": ["@tsconfig/strictest"],
+  "include": ["eslint.config.js", "shared/**/*"],
   "compilerOptions": {
     "noPropertyAccessFromIndexSignature": false,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "allowJs": true
   }
 }

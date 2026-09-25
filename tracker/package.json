@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rolldown src/main.ts --file dist/tracker.js",
     "dev": "node src/main.ts",
-    "type-check": "nuxt typecheck",
+    "type-check": "tsc --noEmit",
     "lint": "eslint ${@:-.}",
     "lint:fix": "eslint --fix ${@:-.}",
     "lint:sarif": "eslint -f @_7d/eslint-formatter-sarif --fix ${@:-.} || true",
