@@ -51,7 +51,7 @@ local sarif = new Mapping<String, Step> {
         check = linters["poutine"].check as String + " --format=sarif > .sarif/poutine.sarif"
     }
     ["hadolint"] {
-        check = linters["hadolint"].check.replaceAll("{{ files }}", "Dockerfile") + " --format=sarif > .sarif/hadolint.sarif"
+        check = linters["hadolint"].check.replaceAll("{{ files }}", "*.Dockerfile") + " --format=sarif > .sarif/hadolint.sarif"
     }
     ...type_checkers
 }
