@@ -58,6 +58,9 @@ jobs:
       id-token: write
       attestations: write
     needs: changelog
+    strategy:
+      matrix:
+        component: [viewer, tracker]
 
     steps:
       - name: Checkout repository
@@ -102,6 +105,7 @@ jobs:
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
+          file: Dockerfile-${{ matrix.component }}
           push: ${{ github.ref_type == 'tag' || github.ref_name == 'master' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -110,7 +114,7 @@ jobs:
           cache-to: type=gha,mode=max
           provenance: true
           sbom: true
-          outputs: type=oci,compression=zstd,compression-level=22,force-compression=true,dest=statustracker-${{ github.ref_name }}.tar.zst
+          outputs: type=oci,compression=zstd,compression-level=22,force-compression=true,dest=statustracker-${{ github.ref_name }}-${{ matrix.component }}.tar.zst
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
@@ -130,13 +134,13 @@ jobs:
       - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
         if: github.ref_type == 'tag'
         with:
-          subject-path: statustracker-${{ github.ref_name }}.tar.zst
+          subject-path: statustracker-${{ github.ref_name }}-${{ matrix.component }}.tar.zst
 
       - uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3  # zizmor: ignore[superfluous-actions]
         if: github.ref_type == 'tag'
         with:
           body: ${{ needs.changelog.outputs.changelog }}
-          files: statustracker-${{ github.ref_name }}.tar.zst
+          files: statustracker-${{ github.ref_name }}-${{ matrix.component }}.tar.zst
 
   delete-github-release:
     runs-on: ubuntu-slim
