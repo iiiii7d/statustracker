@@ -2,7 +2,7 @@ amends "package://github.com/jdx/hk/releases/download/v1.54.1/hk@1.54.1#/Config.
 import "package://github.com/jdx/hk/releases/download/v1.54.1/hk@1.54.1#/Builtins.pkl"
 
 local init = new Step {
-    check = "pnpm i"
+    check = "pnpm i && cd viewer && pnpm run postinstall"
     exclusive = true
 }
 
