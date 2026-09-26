@@ -41,5 +41,5 @@
     "readdir-glob": "3.0.0",
     "glob": "13.0.6"
   },
-  "packageManager": "pnpm@12.5.1"
+  "packageManager": "pnpm@12.6.0"
 }
