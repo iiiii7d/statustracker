@@ -2,6 +2,9 @@ import cron from "node-cron";
 import config from "shared/config.ts";
 import updateCount from "./updateCount.ts";
 import task from "./webhook.ts";
+import { migrateDB } from "shared/db/index.ts";
+
+await migrateDB();
 
 cron.schedule(
   "* * * * *",

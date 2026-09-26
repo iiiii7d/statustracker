@@ -13,7 +13,9 @@
     "db:up": "docker-compose up -d",
     "db:down": "docker-compose down",
     "db:psql": "docker-compose exec postgres psql -U statustracker -d statustracker",
-    "db:logs": "docker-compose logs"
+    "db:logs": "docker-compose logs",
+    "dev": "pnpm run -r dev",
+    "build": "pnpm run -r build"
   },
   "files": [
     "shared",

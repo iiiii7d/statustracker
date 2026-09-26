@@ -1,7 +1,7 @@
 import type { Migration } from "kysely/migration";
-import type { Database } from "../index";
+import type { Database } from "../index.ts";
 import type { Kysely } from "kysely";
-import logger from "../../logger";
+import logger from "../../logger.ts";
 
 export default {
   // eslint-disable-next-line max-statements

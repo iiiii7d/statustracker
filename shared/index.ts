@@ -1,7 +1,6 @@
 import { sql } from "kysely";
 import * as dt from "@internationalized/date";
 import logger from "./logger.ts";
-import config from "./config.ts";
 
 export const currentTimestamp = sql<dt.ZonedDateTime>`date_trunc('minute', now())`;
 export const previousTimestamp = sql<dt.ZonedDateTime>`date_trunc('minute', now() - INTERVAL '1 minute')`;
@@ -11,6 +10,7 @@ const cache = new Map<string, string | null>();
 export async function nameToUUID(name: string): Promise<string | null> {
   const c = cache.get(name);
   if (c !== undefined) return c;
+  const { default: config } = await import("./config.ts");
 
   const res = await fetch(
     `https://api.minecraftservices.com/minecraft/profile/lookup/name/${name}`,

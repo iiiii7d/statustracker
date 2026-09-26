@@ -1,4 +1,4 @@
-import { type Database, getDB } from "shared/db/index.ts";
+import db, { type Database, SQLZonedDateTime } from "shared/db/index.ts";
 import { sql, type Transaction } from "kysely";
 import logger from "shared/logger.ts";
 import config from "shared/config.ts";
@@ -117,7 +117,7 @@ async function closePlayerEntriesIfPaused(trx: Transaction<Database>) {
     .updateTable("players")
     .where("leave", "is", null)
     .set({
-      leave: sql`${lastTimestamp}::timestamptz + INTERVAL '1 min'`,
+      leave: sql`${new SQLZonedDateTime(lastTimestamp)}::timestamptz + INTERVAL '1 min'`,
     })
     .execute();
 }
@@ -125,7 +125,7 @@ async function closePlayerEntriesIfPaused(trx: Transaction<Database>) {
 export default async function task() {
   const playerList = await currentPlayerList();
 
-  await (await getDB()).transaction().execute(async (trx) => {
+  await db.transaction().execute(async (trx) => {
     await updateCounts(trx, playerList);
 
     await closePlayerEntriesIfPaused(trx);

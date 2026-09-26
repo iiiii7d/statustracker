@@ -1,10 +1,8 @@
 import * as echarts from "echarts";
 import type { CategoriesAPI, CountsAPI, PlayerAPI } from "../../api.ts";
 import { hhmm, now } from "../../index.ts";
-import { getCounts } from "../counts.ts";
 import { createCanvas } from "canvas";
 import type * as dt from "@internationalized/date";
-import config from "../../config.ts";
 
 function formatHours(h: number): string {
   if (h === 0) return "Raw";
@@ -128,6 +126,8 @@ export async function getMainChart(
 ): Promise<Buffer<ArrayBufferLike>> {
   const canvas = createCanvas(...chartDimensions);
   const chart = echarts.init(canvas as never);
+  const { default: config } = await import("../../config.ts");
+  const { getCounts } = await import("../counts.ts");
 
   const counts = new Map(
     await Promise.all(

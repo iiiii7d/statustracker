@@ -60,7 +60,9 @@ function setPreset(d: dt.DateDuration) {
         :is-date-unavailable="() => dateInvalid"
         :color="dateInvalid ? 'error' : 'primary'"
         hide-time-zone
-        :default-placeholder="now()"
+        :default-placeholder="
+          new dt.ZonedDateTime(0, 0, 0, dt.getLocalTimeZone(), 0)
+        "
         :locale="locale"
       />
     </div>
@@ -76,7 +78,9 @@ function setPreset(d: dt.DateDuration) {
         :is-date-unavailable="() => dateInvalid"
         :color="dateInvalid ? 'error' : 'primary'"
         hide-time-zone
-        :default-placeholder="now()"
+        :default-placeholder="
+          new dt.ZonedDateTime(0, 0, 0, dt.getLocalTimeZone(), 0)
+        "
         :locale="locale"
       />
     </div>

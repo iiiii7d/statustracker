@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 import { sql } from "kysely";
 import * as dt from "@internationalized/date";
-import { getDB } from "shared/db/index.ts";
+import db, { SQLZonedDateTime } from "shared/db/index.ts";
 import { currentTimestamp, nameToUUID, now } from "shared/index.ts";
 import { playerAPI, type PlayerAPIJson } from "shared/api.ts";
 import logger from "shared/logger.ts";
@@ -24,11 +24,10 @@ const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-// eslint-disable-next-line max-lines-per-function,max-statements
+// eslint-disable-next-line max-lines-per-function
 export default defineEventHandler(async (event): Promise<PlayerAPIJson> => {
   logger.verbose(`Processing ${event.path}`);
   const player = getRouterParam(event, "name")!;
-  const db = await getDB();
 
   const { from, to } = await getValidatedQuery(event, (body) =>
     schema.parse(body),
@@ -46,7 +45,18 @@ export default defineEventHandler(async (event): Promise<PlayerAPIJson> => {
     .selectFrom("players")
     .select(["join", "leave"])
     .where((eb) =>
-      eb.or([eb.between("join", from, to), eb.between("leave", from, to)]),
+      eb.or([
+        eb.between(
+          "join",
+          new SQLZonedDateTime(from),
+          new SQLZonedDateTime(to),
+        ),
+        eb.between(
+          "leave",
+          new SQLZonedDateTime(from),
+          new SQLZonedDateTime(to),
+        ),
+      ]),
     )
     .where("uuid", "=", uuid)
     .orderBy("join", "asc")
@@ -63,8 +73,8 @@ export default defineEventHandler(async (event): Promise<PlayerAPIJson> => {
             .then(currentTimestamp)
             .when("leave", ">", currentTimestamp)
             .then(currentTimestamp)
-            .when("leave", ">", to)
-            .then(to)
+            .when("leave", ">", new SQLZonedDateTime(to))
+            .then(new SQLZonedDateTime(to))
             .else(sql.ref("leave"))
             .end()
             .as("leave"),
@@ -72,15 +82,26 @@ export default defineEventHandler(async (event): Promise<PlayerAPIJson> => {
         .select((eb) =>
           eb
             .case()
-            .when("join", "<", from)
-            .then(from)
+            .when("join", "<", new SQLZonedDateTime(to))
+            .then(new SQLZonedDateTime(to))
             .else(sql.ref("join"))
             .end()
             .as("join"),
         )
         .where("uuid", "=", uuid)
         .where((eb) =>
-          eb.or([eb.between("join", from, to), eb.between("leave", from, to)]),
+          eb.or([
+            eb.between(
+              "join",
+              new SQLZonedDateTime(from),
+              new SQLZonedDateTime(to),
+            ),
+            eb.between(
+              "leave",
+              new SQLZonedDateTime(from),
+              new SQLZonedDateTime(to),
+            ),
+          ]),
         ),
     )
     .selectFrom("ft")

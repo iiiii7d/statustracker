@@ -29,41 +29,35 @@ export interface Database {
   players: PlayerTable;
 }
 
-pgTypes.setTypeParser(pgTypes.builtins.TIMESTAMPTZ, (val) =>
-  dt.parseAbsoluteToLocal(val.replace(" ", "T")),
-);
-declare module "@internationalized/date" {
-  interface ZonedDateTime extends Expression<ZonedDateTime> {
-    get expressionType(): undefined;
+export class SQLZonedDateTime implements Expression<dt.ZonedDateTime> {
+  private readonly value: dt.ZonedDateTime;
+  constructor(value: dt.ZonedDateTime) {
+    this.value = value;
+  }
 
-    toOperationNode(): OperationNode;
+  get expressionType(): dt.ZonedDateTime | undefined {
+    return this.value;
+  }
+
+  toOperationNode(): OperationNode {
+    return sql<string>`${this.value.toAbsoluteString()}`.toOperationNode();
   }
 }
-// @ts-ignore
-dt.ZonedDateTime.prototype.expressionType = undefined;
-// eslint-disable-next-line func-names
-dt.ZonedDateTime.prototype.toOperationNode = function (this: dt.ZonedDateTime) {
-  return sql<string>`${this.toAbsoluteString()}`.toOperationNode();
-};
 
-const db = new Kysely<Database>({
-  dialect: new PostgresDialect({
-    pool: config.db,
-  }),
-});
-let dbReady = false;
+export function getDB(): Kysely<Database> {
+  pgTypes.setTypeParser(pgTypes.builtins.TIMESTAMPTZ, (val) =>
+    dt.parseAbsoluteToLocal(val.replace(" ", "T")),
+  );
 
-export async function getDB(): Promise<Kysely<Database>> {
-  // eslint-disable-next-line no-unmodified-loop-condition
-  while (!dbReady) {
-    // eslint-disable-next-line no-await-in-loop
-    await new Promise((r) => {
-      setTimeout(r, 0);
-    });
-  }
-  return db;
+  return new Kysely<Database>({
+    dialect: new PostgresDialect({
+      pool: config.db,
+    }),
+  });
 }
-export default getDB();
+
+const db = getDB();
+export default db;
 
 export async function migrateDB() {
   const migrator = new Migrator({
@@ -71,8 +65,8 @@ export async function migrateDB() {
     provider: {
       async getMigrations(): Promise<Record<string, Migration>> {
         return {
-          "000000000": (await import("./migrations/3")).default,
-          "000000001": (await import("./migrations/4.0.0")).default,
+          "000000000": (await import("./migrations/3.ts")).default,
+          "000000001": (await import("./migrations/4.0.0.ts")).default,
         };
       },
     },
@@ -93,6 +87,5 @@ export async function migrateDB() {
     process.exit(1);
   }
 
-  logger.start("DB ready");
-  dbReady = true;
+  logger.start("DB migrated");
 }

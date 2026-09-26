@@ -1,4 +1,4 @@
-import { getDB } from "./index.ts";
+import db, { SQLZonedDateTime } from "./index.ts";
 import { sql } from "kysely";
 import type * as dt from "@internationalized/date";
 import type { CountsAPI } from "../api.ts";
@@ -9,7 +9,6 @@ export async function getCounts(
   to: dt.ZonedDateTime,
   movingAverage: number,
 ): Promise<CountsAPI> {
-  const db = await getDB();
   const ma = `${movingAverage} hours`;
 
   return await db
@@ -43,7 +42,13 @@ export async function getCounts(
             .as("row_n"),
         )
         .groupBy("timestamp")
-        .having((eb) => eb.between("timestamp", from, to)),
+        .having((eb) =>
+          eb.between(
+            "timestamp",
+            new SQLZonedDateTime(from),
+            new SQLZonedDateTime(to),
+          ),
+        ),
     )
     .selectFrom("aggregation")
     .select(["timestamp", "values"])

@@ -3,7 +3,6 @@ import type { CategoriesAPI, PercentOnlineAPI } from "../../api.ts";
 import { createCanvas } from "canvas";
 import type * as dt from "@internationalized/date";
 import { getPercentOnline } from "../percentOnline.ts";
-import config from "../../config.ts";
 
 export function getPercentOnlineChartOption(
   categories: CategoriesAPI,
@@ -62,6 +61,7 @@ export async function getPercentOnlineChart(
 ): Promise<Buffer<ArrayBufferLike>> {
   const canvas = createCanvas(...chartDimensions);
   const chart = echarts.init(canvas as never);
+  const { default: config } = await import("../../config.ts");
 
   const percentages = await getPercentOnline(from, to);
   const option = getPercentOnlineChartOption(config.categories, percentages);

@@ -27,7 +27,6 @@
     "consola": "3.4.2",
     "echarts": "6.1.0",
     "kysely": "0.29.6",
-    "node-cron": "4.6.0",
     "nuxt": "4.5.2",
     "pg": "8.23.0",
     "shared": "workspace:../shared",
@@ -38,7 +37,6 @@
     "zod": "4.6.5"
   },
   "overrides": {
-    "readdir-glob": "3.0.0",
     "glob": "13.0.6"
   },
   "packageManager": "pnpm@12.5.1"
