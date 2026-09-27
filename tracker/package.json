@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "rolldown src/main.ts --file dist/tracker.js",
+    "build": "rolldown src/main.ts --no-codeSplitting --file dist/tracker.js",
     "dev": "node src/main.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint ${@:-.}",
