@@ -20,7 +20,7 @@
     "echarts": "6.1.0",
     "kysely": "0.29.6",
     "node-cron": "4.6.0",
-    "pg": "8.23.0",
+    "pg": "8.23.1",
     "shared": "workspace:../shared",
     "zod": "4.6.5"
   },
