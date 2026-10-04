@@ -25,7 +25,7 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
-    "rolldown": "1.2.11"
+    "rolldown": "1.2.12"
   },
   "overrides": {
     "readdir-glob": "3.0.0",
