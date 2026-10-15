@@ -13,8 +13,8 @@ importers:
   .:
     dependencies:
       '@iconify-json/lucide':
-        specifier: 1.2.142
-        version: 1.2.142
+        specifier: 1.2.143
+        version: 1.2.143
       '@internationalized/date':
         specifier: 3.12.4
         version: 3.12.4
@@ -560,8 +560,8 @@ packages:
   '@floating-ui/vue@1.1.11':
     resolution: {integrity: sha512-HzHKCNVxnGS35r9fCHBc3+uCnjw9IWIlCPL683cGgM9Kgj2BiAl8x1mS7vtvP6F9S/e/q4O6MApwSHj8hNLGfw==}
 
-  '@iconify-json/lucide@1.2.142':
-    resolution: {integrity: sha512-vEGX5X52/l77jRMcmxXk3PiEebldDUs8WFdM8X3Evq1S9p5F+o0VZhx8sqaQsmFEB9Ukp5ND5Q/0g2kQ/LF+rQ==}
+  '@iconify-json/lucide@1.2.143':
+    resolution: {integrity: sha512-YSggiBVmSY5IvLoKS5pUBoNYkon5g5bac0/JvYCIaFbhTfsTfkIHG2nCXWSk03tu5C4IEmyZ4qwfwbO9CXqLag==}
 
   '@iconify/collections@1.0.745':
     resolution: {integrity: sha512-/k7EhIyDd5PI8TxtMjyiM4FgHdxY0WZ+q2U41EAh1uBhn490IkHh1tCpKDOrVm4XtzS20Yn9dscxtbt+LHShgg==}
@@ -4992,7 +4992,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@iconify-json/lucide@1.2.142':
+  '@iconify-json/lucide@1.2.143':
     dependencies:
       '@iconify/types': 2.0.0
 
