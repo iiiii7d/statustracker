@@ -22,7 +22,7 @@
     "node-cron": "4.6.0",
     "pg": "8.23.1",
     "shared": "workspace:../shared",
-    "zod": "4.6.5"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "rolldown": "1.2.14"

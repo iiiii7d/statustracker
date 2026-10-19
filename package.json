@@ -29,7 +29,7 @@
     "echarts": "6.1.0",
     "kysely": "0.29.6",
     "pg": "8.23.1",
-    "zod": "4.6.5"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@_7d/eslint-formatter-sarif": "1.0.1",
