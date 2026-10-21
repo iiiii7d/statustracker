@@ -26,7 +26,7 @@
     "canvas": "3.2.3",
     "consola": "3.4.2",
     "echarts": "6.1.0",
-    "kysely": "0.29.6",
+    "kysely": "0.29.7",
     "nuxt": "4.6.2",
     "pg": "8.23.1",
     "shared": "workspace:../shared",
