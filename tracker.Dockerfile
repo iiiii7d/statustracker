@@ -3,11 +3,11 @@ WORKDIR /app
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
 # renovate: datasource=deb depName=sudo
-ENV SUDO_VERSION="1.9.16p2-3+deb13u2"
+ENV SUDO_VERSION="1.9.16p2-3"
 # renovate: datasource=deb depName=curl
-ENV CURL_VERSION="8.14.1-2+deb13u5"
+ENV CURL_VERSION="8.14.1-2"
 # renovate: datasource=deb depName=git
-ENV GIT_VERSION="1:2.47.3-0+deb13u1"
+ENV GIT_VERSION="1:2.47.3-0"
 # renovate: datasource=deb depName=ca-certificates
 ENV CA_CERTIFICATES_VERSION="20250419"
 # renovate: datasource=deb depName=build-essential
