@@ -14,9 +14,9 @@ ENV CA_CERTIFICATES_VERSION="20250419"
 ENV BUILD_ESSENTIAL_VERSION="12.12"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo="${SUDO_VERSION}" \
-    curl="${CURL_VERSION}" \
-    git="${GIT_VERSION}" \
+    sudo="${SUDO_VERSION}+*" \
+    curl="${CURL_VERSION}+*" \
+    git="${GIT_VERSION}+*" \
     ca-certificates="${CA_CERTIFICATES_VERSION}" \
     build-essential="${BUILD_ESSENTIAL_VERSION}" \
     && rm -r /var/lib/apt/lists/* && apt-get clean
