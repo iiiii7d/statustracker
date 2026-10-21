@@ -8,7 +8,7 @@ name: Docker
 on:
   workflow_dispatch:
   push:
-    branches: ["master", "renovate/**"]
+    branches: ["master", "renovate/**", "dev", "v4"]
     tags: ["**"]
 
 env:
