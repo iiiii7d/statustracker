@@ -44,7 +44,7 @@ COPY tsconfig.json ..
 RUN pnpm run gen-licenses && pnpm run build
 
 
-FROM node:26.12.0-slim@sha256:e556a144463cc8dc53afe8de6d2fa0db5c132fd39ffa232c17641bd40df2bf11
+FROM node:26.12.1-slim@sha256:1653c74b30c27b26f68c2d21279be12139d2ba723e3a682c425ec4bfb6070422
 WORKDIR /app
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
