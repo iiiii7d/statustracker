@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.1.37 (20261022)
+
+- upgrade dependencies
+  - update docker images for eMudhra
+
 ## v3.1.36 (20261021)
 
 - upgrade dependencies
