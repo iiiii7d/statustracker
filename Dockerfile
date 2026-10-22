@@ -43,7 +43,7 @@ COPY . .
 RUN pnpm run gen-licenses && pnpm run build
 
 
-FROM node:26.12.1-slim@sha256:1653c74b30c27b26f68c2d21279be12139d2ba723e3a682c425ec4bfb6070422
+FROM node:26.12.1-slim@sha256:36793bcbb160a6a16cede1e62b93f84e26b78a972a8a4c0b879c1c12f22761ec
 WORKDIR /app
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 # renovate: datasource=deb depName=gnupg
