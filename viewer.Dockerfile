@@ -2,14 +2,14 @@ FROM debian:13.7-slim@sha256:62bd423aeee912639ca8ee681c2b762cb3e25137e0a92b20be4
 WORKDIR /app
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
-# renovate: datasource=deb depName=sudo
+# renovate: datasource=deb depName=sudo extractVersion=^(?<version>[^+]+)
 ENV SUDO_VERSION="1.9.16p2-3"
-# renovate: datasource=deb depName=curl
+# renovate: datasource=deb depName=curl extractVersion=^(?<version>[^+]+)
 ENV CURL_VERSION="8.14.1-2"
-# renovate: datasource=deb depName=git
+# renovate: datasource=deb depName=git extractVersion=^(?<version>[^+]+)
 ENV GIT_VERSION="1:2.47.3-0"
 # renovate: datasource=deb depName=ca-certificates
-ENV CA_CERTIFICATES_VERSION="20250419"
+ENV CA_CERTIFICATES_VERSION="20250419+deb13u1"
 # renovate: datasource=deb depName=build-essential
 ENV BUILD_ESSENTIAL_VERSION="12.12"
 
