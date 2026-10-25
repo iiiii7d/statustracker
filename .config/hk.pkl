@@ -1,5 +1,7 @@
 amends "package://github.com/jdx/hk/releases/download/v2.8.0/hk@2.8.0#/Config.pkl"
 import "package://github.com/jdx/hk/releases/download/v2.8.0/hk@2.8.0#/Builtins.pkl"
+import "package://github.com/iiiii7d/hk/releases/download/v2.8.0-7/hk@2.8.0-7#/Pnpm.pkl"
+import "package://github.com/iiiii7d/hk/releases/download/v2.8.0-7/hk@2.8.0-7#/Misc.pkl"
 
 local init = new Step {
     check = "pnpm i && cd viewer && pnpm run postinstall"
@@ -7,51 +9,36 @@ local init = new Step {
 }
 
 local formatters = new Mapping<String, Step> {
-    ["prettier"] = (Builtins.prettier) {
-        check = "pnpm run format:check {{ files }}"
-        fix = "pnpm run format {{ files }}"
+    ["prettier"] = (Pnpm.pnpm_format) {
+        workspace_indicator = "pnpm-workspace.yaml"
     }
 }
 local linters = new Mapping<String, Step> {
-    ["eslint"] = (Builtins.eslint) {
-        check = "pnpm run lint {{ files }}"
-        fix = "pnpm run lint:fix {{ files }}"
+    ["eslint"] = (Pnpm.pnpm_lint) {
+        workspace_indicator = "pnpm-workspace.yaml"
     }
-    ["zizmor"] = Builtins.zizmor
-    ["actionlint"] = Builtins.actionlint
-    ["poutine"] {
-        glob = Builtins.zizmor.glob
-        check = "poutine analyze_local . --skip github_action_from_unverified_creator_used"
-    }
-    ["hadolint"] = (Builtins.hadolint) {
+    ["zizmor"] = Misc.zizmor
+    ["actionlint"] = Misc.actionlint
+    ["poutine"] = Misc.poutine
+    ["hadolint"] = (Misc.hadolint) {
         glob = "**/{*.,}Dockerfile*"
     }
 }
 local type_checkers = new Mapping<String, Step> {
-    ["type_check"] {
-        glob = Builtins.eslint.glob
-        check = "pnpm run type-check"
-    }
+    ["tsc"] = Pnpm.pnpm_type_check
 }
 local sarif = new Mapping<String, Step> {
-    ["mkdir"] {
-        fix = "mkdir .sarif || true"
-        exclusive = true
+    ["mkdir"] = Misc.mkdir_sarif(".sarif")
+    ["eslint"] = (Pnpm.pnpm_lint_sarif(".sarif")) {
+        workspace_indicator = "pnpm-workspace.yaml"
     }
-    ["eslint"] {
-        fix = "pnpm run lint:sarif > .sarif/eslint.sarif"
-    }
-    ["zizmor"] {
-        fix = linters["zizmor"].fix.replaceAll("{{ files }}", ".") + " --format=sarif > .sarif/zizmor.sarif"
-    }
-    ["actionlint"] {
-        check = "actionlint -format \"$(curl -sSL \"https://cdn.jsdelivr.net/gh/kjanat/actionlint/sarif_template.txt\")\" > .sarif/actionlint.sarif"
-    }
-    ["poutine"] {
-        check = linters["poutine"].check as String + " --format=sarif > .sarif/poutine.sarif"
-    }
-    ["hadolint"] {
-        check = linters["hadolint"].check.replaceAll("{{ files }}", "*.Dockerfile") + " --format=sarif > .sarif/hadolint.sarif"
+    ["zizmor"] = Misc.zizmor_sarif(".sarif")
+    ["actionlint"] = Misc.actionlint_sarif(".sarif")
+    ["poutine"] = Misc.poutine_sarif(".sarif")
+    ["hadolint"] = (Misc.hadolint_sarif(".sarif")) {
+        check = (super.check) {
+            command = super.command.replaceAll("Dockerfile", "**/{*.,}Dockerfile")
+        }
     }
     ...type_checkers
 }
