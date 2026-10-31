@@ -11,9 +11,12 @@ minimumReleaseAgeStrict: false
 
 overrides:
   readdir-glob: 3.0.0
-  glob: 13.0.6
+  glob: 14.0.2
 
 packages:
   - viewer
   - tracker
 sharedWorkspaceLockfile: false
+minimumReleaseAgeExclude:
+  # Renovate security update: glob@14.0.2
+  - glob@14.0.2
