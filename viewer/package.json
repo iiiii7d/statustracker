@@ -39,5 +39,5 @@
   "overrides": {
     "glob": "14.0.2"
   },
-  "packageManager": "pnpm@12.16.0"
+  "packageManager": "pnpm@12.16.1"
 }
