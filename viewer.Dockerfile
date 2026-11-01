@@ -1,4 +1,4 @@
-FROM jdxcode/mise:2026.10.20-debian@sha256:98d379dcc6291d6dfa09614003e88b864430a6120ca0fea2917d6f03eb60af4d AS build
+FROM jdxcode/mise:2026.10.23-debian@sha256:500fb7751d822969b59f8d15a639d89438a3f27bf9ee23cc5d363190839733ac AS build
 WORKDIR /app
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
