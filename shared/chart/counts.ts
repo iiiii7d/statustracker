@@ -1,8 +1,6 @@
-import * as echarts from "echarts";
-import type { CategoriesAPI, CountsAPI, PlayerAPI } from "../../api.ts";
-import { hhmm, now } from "../../index.ts";
-import { createCanvas } from "canvas";
-import type * as dt from "@internationalized/date";
+import type * as echarts from "echarts";
+import type { CategoriesAPI, CountsAPI, PlayerAPI } from "../api.ts";
+import { hhmm, now } from "../index.ts";
 
 function formatHours(h: number): string {
   if (h === 0) return "Raw";
@@ -68,7 +66,7 @@ export function getPlayTimes(
   });
 }
 
-export function getMainChartOption(
+export function getCountsChartOption(
   series: echarts.LineSeriesOption[],
   playTimes?: PlayTimesChartData,
 ): echarts.ComposeOption<
@@ -115,32 +113,4 @@ export function getMainChartOption(
       },
     ],
   };
-}
-
-// eslint-disable-next-line max-params
-export async function getMainChart(
-  from: dt.ZonedDateTime,
-  to: dt.ZonedDateTime,
-  movingAverages: number[],
-  chartDimensions: [number, number],
-): Promise<Buffer<ArrayBufferLike>> {
-  const canvas = createCanvas(...chartDimensions);
-  const chart = echarts.init(canvas as never);
-  const { default: config } = await import("../../config.ts");
-  const { getCounts } = await import("../counts.ts");
-
-  const counts = new Map(
-    await Promise.all(
-      movingAverages.map(
-        async (ma) => [ma, await getCounts(from, to, ma)] as const,
-      ),
-    ),
-  );
-  const series = getSeries(counts, config.categories);
-
-  const option = getMainChartOption(series);
-  chart.setOption({ ...option, backgroundColor: "#111" });
-  const buffer = canvas.toBuffer("image/png");
-  chart.dispose();
-  return buffer;
 }

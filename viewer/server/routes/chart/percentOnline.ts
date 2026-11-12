@@ -1,8 +1,8 @@
 import * as dt from "@internationalized/date";
-import { now } from "shared";
 import { z } from "zod/v4";
-import { getPercentOnlineChart } from "shared/db/chart/percentOnline.ts";
+import { getPercentOnlineChart } from "shared/backend/db/percentOnline.ts";
 import logger from "shared/logger.ts";
+import { now } from "shared/index.ts";
 
 export const schema = z
   .object({

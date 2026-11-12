@@ -1,9 +1,9 @@
 import { z } from "zod/v4";
 import * as dt from "@internationalized/date";
-import { now } from "shared/index.ts";
 import type { PercentOnlineAPI } from "shared/api.ts";
-import { getPercentOnline } from "shared/db/percentOnline.ts";
+import { getPercentOnline } from "shared/backend/db/percentOnline.ts";
 import logger from "shared/logger.ts";
+import { now } from "shared/index.ts";
 
 const schema = z
   .object({

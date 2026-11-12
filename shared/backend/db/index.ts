@@ -10,7 +10,7 @@ import { type Migration, Migrator } from "kysely/migration";
 import { types as pgTypes } from "pg";
 import * as dt from "@internationalized/date";
 import config from "../config.ts";
-import logger from "../logger.ts";
+import logger from "../../logger.ts";
 
 export interface CountTable {
   timestamp: Generated<dt.ZonedDateTime>;

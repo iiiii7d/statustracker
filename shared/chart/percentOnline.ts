@@ -1,8 +1,5 @@
-import * as echarts from "echarts";
-import type { CategoriesAPI, PercentOnlineAPI } from "../../api.ts";
-import { createCanvas } from "canvas";
-import type * as dt from "@internationalized/date";
-import { getPercentOnline } from "../percentOnline.ts";
+import type * as echarts from "echarts";
+import type { CategoriesAPI, PercentOnlineAPI } from "../api.ts";
 
 export function getPercentOnlineChartOption(
   categories: CategoriesAPI,
@@ -52,22 +49,4 @@ export function getPercentOnlineChartOption(
       },
     ],
   };
-}
-
-export async function getPercentOnlineChart(
-  from: dt.ZonedDateTime,
-  to: dt.ZonedDateTime,
-  chartDimensions: [number, number],
-): Promise<Buffer<ArrayBufferLike>> {
-  const canvas = createCanvas(...chartDimensions);
-  const chart = echarts.init(canvas as never);
-  const { default: config } = await import("../../config.ts");
-
-  const percentages = await getPercentOnline(from, to);
-  const option = getPercentOnlineChartOption(config.categories, percentages);
-
-  chart.setOption({ ...option, backgroundColor: "#111" });
-  const buffer = canvas.toBuffer("image/png");
-  chart.dispose();
-  return buffer;
 }

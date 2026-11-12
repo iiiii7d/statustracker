@@ -1,6 +1,10 @@
 import db, { SQLZonedDateTime } from "./index.ts";
 import type * as dt from "@internationalized/date";
-import type { PercentOnlineAPI } from "../api.ts";
+import * as echarts from "echarts";
+import type { PercentOnlineAPI } from "../../api.ts";
+import { createCanvas } from "canvas";
+import { getPercentOnlineChartOption } from "../../chart/percentOnline.ts";
+import config from "../config.ts";
 
 export async function getPercentOnline(
   from: dt.ZonedDateTime,
@@ -44,4 +48,21 @@ export async function getPercentOnline(
   return Object.fromEntries(
     result.map(({ category, percentage }) => [category, percentage] as const),
   );
+}
+
+export async function getPercentOnlineChart(
+  from: dt.ZonedDateTime,
+  to: dt.ZonedDateTime,
+  chartDimensions: [number, number],
+): Promise<Buffer<ArrayBufferLike>> {
+  const canvas = createCanvas(...chartDimensions);
+  const chart = echarts.init(canvas as never);
+
+  const percentages = await getPercentOnline(from, to);
+  const option = getPercentOnlineChartOption(config.categories, percentages);
+
+  chart.setOption({ ...option, backgroundColor: "#111" });
+  const buffer = canvas.toBuffer("image/png");
+  chart.dispose();
+  return buffer;
 }

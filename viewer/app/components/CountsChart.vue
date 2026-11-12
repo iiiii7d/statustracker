@@ -10,10 +10,10 @@ import { CanvasRenderer } from "echarts/renderers";
 import VChart, { THEME_KEY } from "vue-echarts";
 import { counts, loading, player } from "~/state.ts";
 import {
-  getMainChartOption,
+  getCountsChartOption,
   getPlayTimes,
   getSeries,
-} from "shared/db/chart/main.ts";
+} from "shared/chart/counts.ts";
 
 use([
   GridComponent,
@@ -33,7 +33,7 @@ const playTimes = computed(() =>
     : undefined,
 );
 const option = computed(() =>
-  getMainChartOption(series.value, playTimes.value),
+  getCountsChartOption(series.value, playTimes.value),
 );
 </script>
 

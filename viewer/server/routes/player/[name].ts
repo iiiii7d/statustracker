@@ -1,10 +1,11 @@
 import { z } from "zod/v4";
 import { sql } from "kysely";
 import * as dt from "@internationalized/date";
-import db, { SQLZonedDateTime } from "shared/db/index.ts";
-import { currentTimestamp, nameToUUID, now } from "shared/index.ts";
+import db, { SQLZonedDateTime } from "shared/backend/db/index.ts";
+import { currentTimestamp, nameToUUID } from "shared/backend/index.ts";
 import { playerAPI, type PlayerAPIJson } from "shared/api.ts";
 import logger from "shared/logger.ts";
+import { now } from "shared/index.ts";
 
 const schema = z
   .object({

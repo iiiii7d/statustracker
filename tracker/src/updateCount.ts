@@ -1,12 +1,15 @@
-import db, { type Database, SQLZonedDateTime } from "shared/db/index.ts";
+import db, {
+  type Database,
+  SQLZonedDateTime,
+} from "shared/backend/db/index.ts";
 import { sql, type Transaction } from "kysely";
 import logger from "shared/logger.ts";
-import config from "shared/config.ts";
+import config from "shared/backend/config.ts";
 import {
   nameToUUID,
   currentTimestamp,
   previousTimestamp,
-} from "shared/index.ts";
+} from "shared/backend/index.ts";
 
 async function currentPlayerList(): Promise<string[]> {
   logger.info(`Retrieving current player list from ${config.dynmapLink}`);

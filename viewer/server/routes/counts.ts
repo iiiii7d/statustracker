@@ -2,7 +2,8 @@ import { z } from "zod/v4";
 import * as dt from "@internationalized/date";
 import { countsAPI, type CountsAPIJson } from "shared/api.ts";
 import logger from "shared/logger.ts";
-import { getCounts } from "shared/db/counts.ts";
+import { getCounts } from "shared/backend/db/counts.ts";
+
 import { now } from "shared/index.ts";
 
 const schema = z

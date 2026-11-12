@@ -1,9 +1,9 @@
-import { now } from "shared/index.ts";
-import config, { type Config } from "shared/config.ts";
-import { getMainChart } from "shared/db/chart/main.ts";
-import { getPercentOnlineChart } from "shared/db/chart/percentOnline.ts";
+import config, { type Config } from "shared/backend/config.ts";
+import { getCountsChart } from "shared/backend/db/counts.ts";
+import { getPercentOnlineChart } from "shared/backend/db/percentOnline.ts";
 import type * as dt from "@internationalized/date";
 import logger from "shared/logger.ts";
+import { now } from "shared/index.ts";
 
 export function formatMessage(
   input: string,
@@ -39,7 +39,7 @@ export default async function task(id: string) {
   logger.info(`Running webhook \`${id}\``);
   const from = now().subtract(webhook.range);
   const to = now();
-  const mainChart = await getMainChart(
+  const countsChart = await getCountsChart(
     from,
     to,
     webhook.movingAverages,
@@ -52,11 +52,11 @@ export default async function task(id: string) {
   );
 
   // eslint-disable-next-line no-console
-  console.log(mainChart, percentOnlineChart);
+  console.log(countsChart, percentOnlineChart);
 
   switch (webhook.type) {
     // case "discord": {
-    //   const mainChartAttachment = new AttachmentBuilder(mainChart);
+    //   const mainChartAttachment = new AttachmentBuilder(countsChart);
     //   const percentOnlineAttachment = new AttachmentBuilder(percentOnlineChart);
     //
     //   await webhook.client.send({

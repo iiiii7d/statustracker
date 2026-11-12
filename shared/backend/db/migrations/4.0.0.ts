@@ -1,7 +1,7 @@
 import type { Migration } from "kysely/migration";
-import type { Database } from "../index";
+import type { Database } from "../index.ts";
 import { type Kysely, sql } from "kysely";
-import logger from "../../logger.ts";
+import logger from "../../../logger.ts";
 import { currentTimestamp } from "../../index.ts";
 
 export default {

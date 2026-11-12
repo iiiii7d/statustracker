@@ -1,8 +1,8 @@
 import cron from "node-cron";
-import config from "shared/config.ts";
+import config from "shared/backend/config.ts";
 import updateCount from "./updateCount.ts";
 import task from "./webhook.ts";
-import { migrateDB } from "shared/db/index.ts";
+import { migrateDB } from "shared/backend/db/index.ts";
 
 await migrateDB();
 

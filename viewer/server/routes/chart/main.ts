@@ -1,8 +1,8 @@
 import * as dt from "@internationalized/date";
-import { now } from "shared/index.ts";
 import { z } from "zod/v4";
-import { getMainChart } from "shared/db/chart/main.ts";
+import { getCountsChart } from "shared/backend/db/counts.ts";
 import logger from "shared/logger.ts";
+import { now } from "shared/index.ts";
 
 const schema = z
   .object({
@@ -45,5 +45,5 @@ export default defineEventHandler(async (event) => {
     (body) => schema.parse(body),
   );
 
-  return getMainChart(from, to, movingAverages, chartDimensions);
+  return getCountsChart(from, to, movingAverages, chartDimensions);
 });

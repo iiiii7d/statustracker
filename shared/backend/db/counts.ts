@@ -1,9 +1,13 @@
 import db, { SQLZonedDateTime } from "./index.ts";
 import { sql } from "kysely";
 import type * as dt from "@internationalized/date";
-import type { CountsAPI } from "../api.ts";
 import config from "../config.ts";
+import * as echarts from "echarts";
+import type { CountsAPI } from "../../api.ts";
+import { createCanvas } from "canvas";
+import { getCountsChartOption, getSeries } from "../../chart/counts.ts";
 
+// eslint-disable-next-line max-lines-per-function
 export async function getCounts(
   from: dt.ZonedDateTime,
   to: dt.ZonedDateTime,
@@ -57,4 +61,30 @@ export async function getCounts(
     )
     .orderBy("timestamp", "asc")
     .execute();
+}
+
+// eslint-disable-next-line max-params
+export async function getCountsChart(
+  from: dt.ZonedDateTime,
+  to: dt.ZonedDateTime,
+  movingAverages: number[],
+  chartDimensions: [number, number],
+): Promise<Buffer<ArrayBufferLike>> {
+  const canvas = createCanvas(...chartDimensions);
+  const chart = echarts.init(canvas as never);
+
+  const counts = new Map(
+    await Promise.all(
+      movingAverages.map(
+        async (ma) => [ma, await getCounts(from, to, ma)] as const,
+      ),
+    ),
+  );
+  const series = getSeries(counts, config.categories);
+
+  const option = getCountsChartOption(series);
+  chart.setOption({ ...option, backgroundColor: "#111" });
+  const buffer = canvas.toBuffer("image/png");
+  chart.dispose();
+  return buffer;
 }
