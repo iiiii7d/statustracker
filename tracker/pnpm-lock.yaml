@@ -5,7 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  readdir-glob: 4.0.0
   glob: 14.0.4
 
 importers:
