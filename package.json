@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "@internationalized/date": "3.12.4",
-    "@tsconfig/strictest": "2.0.8",
+    "@tsconfig/strictest": "2.0.9",
     "canvas": "3.2.3",
     "consola": "3.4.2",
     "echarts": "6.1.0",
