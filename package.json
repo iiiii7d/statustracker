@@ -18,7 +18,7 @@
     "gen-licenses": "pnpm licenses ls --long -P > public/licenses.txt"
   },
   "dependencies": {
-    "@tsconfig/strictest": "2.0.8",
+    "@tsconfig/strictest": "2.0.9",
     "chart.js": "4.6.1",
     "chartjs-adapter-date-fns": "3.0.0",
     "chartjs-plugin-annotation": "3.1.0",
