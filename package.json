@@ -48,7 +48,7 @@
     "vue-tsc": "3.3.14"
   },
   "optionalDependencies": {
-    "cron-parser": "5.10.4",
+    "cron-parser": "5.10.5",
     "discord.js": "14.28.1",
     "puppeteer": "25.17.0"
   },
