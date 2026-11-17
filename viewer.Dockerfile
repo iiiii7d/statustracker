@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 COPY ./.config .config
 RUN mise trust && mise install && eval "$(mise activate bash)"
 
-COPY viewer/package.json viewer/pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY viewer/package.json package.json viewer/pnpm-lock.yaml pnpm-lock.yaml pnpm-workspace.yaml ./
 WORKDIR /app/viewer
 RUN pnpm ci -P
 
