@@ -1,7 +1,7 @@
 amends "package://github.com/jdx/hk/releases/download/v2.12.0/hk@2.12.0#/Config.pkl"
 import "package://github.com/jdx/hk/releases/download/v2.12.0/hk@2.12.0#/Builtins.pkl"
-import "package://github.com/iiiii7d/hk/releases/download/v2.8.0-7/hk@2.8.0-7#/Pnpm.pkl"
-import "package://github.com/iiiii7d/hk/releases/download/v2.8.0-7/hk@2.8.0-7#/Misc.pkl"
+import "package://github.com/iiiii7d/hk/releases/download/v2026.11.17+2.12.0/hk@2026.11.17+2.12.0#/Pnpm.pkl"
+import "package://github.com/iiiii7d/hk/releases/download/v2026.11.17+2.12.0/hk@2026.11.17+2.12.0#/Misc.pkl"
 
 local init = new Step {
     check = "pnpm i && cd viewer && pnpm run postinstall"
@@ -9,37 +9,29 @@ local init = new Step {
 }
 
 local formatters = new Mapping<String, Step> {
-    ["prettier"] = (Pnpm.pnpm_format) {
+    ["prettier"] = (Pnpm.format) {
         workspace_indicator = "pnpm-workspace.yaml"
     }
 }
 local linters = new Mapping<String, Step> {
-    ["eslint"] = (Pnpm.pnpm_lint) {
+    ["eslint"] = (Pnpm.lint) {
         workspace_indicator = "pnpm-workspace.yaml"
     }
-    ["zizmor"] = Misc.zizmor
+    ...Misc.zizmor.steps
     ["actionlint"] = Misc.actionlint
-    ["poutine"] = Misc.poutine
-    ["hadolint"] = (Misc.hadolint) {
-        glob = "**/{*.,}Dockerfile*"
-    }
+    ...Misc.poutine.steps
+    ...Misc.hadolint.steps
 }
 local type_checkers = new Mapping<String, Step> {
-    ["tsc"] = Pnpm.pnpm_type_check
-}
-local sarif = new Mapping<String, Step> {
-    ["mkdir"] = Misc.mkdir_sarif(".sarif")
-    ["eslint"] = (Pnpm.pnpm_lint_sarif(".sarif")) {
+    ["tsc"] = (Pnpm.type_check) {
         workspace_indicator = "pnpm-workspace.yaml"
     }
-    ["zizmor"] = Misc.zizmor_sarif(".sarif")
-    ["actionlint"] = Misc.actionlint_sarif(".sarif")
-    ["poutine"] = Misc.poutine_sarif(".sarif")
-    ["hadolint"] = (Misc.hadolint_sarif(".sarif")) {
-        check = (super.check) {
-            command = super.command.replaceAll("Dockerfile", "**/{*.,}Dockerfile")
-        }
-    }
+}
+
+steps = new Mapping<String, Step | Group> {
+    ["init"] = init
+    ...formatters
+    ...linters
     ...type_checkers
 }
 
@@ -47,42 +39,5 @@ hooks {
     ["pre-commit"] {
         fix = true
         stash = "git"
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...formatters
-            ...linters
-            ...type_checkers
-        }
-    }
-    ["fix"] {
-        fix = true
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...formatters
-            ...linters
-            ...type_checkers
-        }
-    }
-    ["check"] {
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...formatters
-            ...linters
-            ...type_checkers
-        }
-    }
-    ["format"] {
-        fix = true
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...formatters
-        }
-    }
-    ["sarif"] {
-        fix = true
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...sarif
-        }
     }
 }
