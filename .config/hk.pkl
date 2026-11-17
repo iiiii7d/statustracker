@@ -4,7 +4,7 @@ import "package://github.com/iiiii7d/hk/releases/download/v2.12.0-11/hk@2.12.0-1
 import "package://github.com/iiiii7d/hk/releases/download/v2.12.0-11/hk@2.12.0-11#/Misc.pkl"
 
 local init = new Step {
-    check = "pnpm i"
+    check = "pnpm ci"
     exclusive = true
 }
 

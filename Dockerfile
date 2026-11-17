@@ -6,7 +6,7 @@ COPY .config .config
 RUN mise trust && mise install && eval "$(mise activate bash)"
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm i -P
+RUN pnpm ci -P
 
 COPY . .
 RUN pnpm run gen-licenses && pnpm run build
