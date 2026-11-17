@@ -4,7 +4,7 @@ import "package://github.com/iiiii7d/hk/releases/download/v2026.11.17+2.12.0/hk@
 import "package://github.com/iiiii7d/hk/releases/download/v2026.11.17+2.12.0/hk@2026.11.17+2.12.0#/Misc.pkl"
 
 local init = new Step {
-    check = "pnpm i && cd viewer && pnpm run postinstall"
+    check = "pnpm ci && cd viewer && pnpm run postinstall"
     exclusive = true
 }
 
