@@ -7,7 +7,7 @@ RUN mise trust && mise install && eval "$(mise activate bash)"
 
 COPY viewer/package.json package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 WORKDIR /app/viewer
-RUN pnpm ci
+RUN pnpm ci -P
 
 COPY viewer/ .
 COPY shared/ ../shared

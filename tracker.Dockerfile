@@ -7,7 +7,7 @@ RUN mise trust && mise install && eval "$(mise activate bash)"
 
 COPY tracker/package.json package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 WORKDIR /app/tracker
-RUN pnpm ci
+RUN pnpm ci -P
 
 COPY tracker/ .
 COPY shared/ ../shared
