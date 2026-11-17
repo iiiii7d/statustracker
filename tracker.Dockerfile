@@ -5,9 +5,9 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 COPY ./.config .config
 RUN mise trust && mise install && eval "$(mise activate bash)"
 
-COPY tracker/package.json package.json tracker/pnpm-lock.yaml pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY tracker/package.json package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 WORKDIR /app/tracker
-RUN pnpm ci -P
+RUN pnpm ci
 
 COPY tracker/ .
 COPY shared/ ../shared
