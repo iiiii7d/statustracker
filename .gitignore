@@ -302,4 +302,3 @@ node_modules
 .idea
 public/licenses.txt
 config.json
-.sarif

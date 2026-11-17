@@ -8,8 +8,9 @@ name: Docker
 on:
   workflow_dispatch:
   push:
-    branches: ["master", "renovate/**", "dev", "v4"]
+    branches: ["master", "dev", "v4"]
     tags: ["**"]
+  pull_request:
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -17,8 +18,14 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
+permissions: {}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   changelog:
+    name: Changelog
     runs-on: ubuntu-latest
     outputs:
       changelog: ${{ steps.changelog.outputs.changelog }}
@@ -49,6 +56,7 @@ jobs:
           TAG: ${{ github.ref_name }}
 
   build:
+    name: Build
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -139,6 +147,7 @@ jobs:
           files: statustracker-${{ github.ref_name }}.tar.zst
 
   delete-github-release:
+    name: Delete failed release
     runs-on: ubuntu-slim
     needs: [changelog, build]
     if: always() && github.ref_type == 'tag' && contains(needs.*.result, 'failure')

@@ -22,14 +22,14 @@ runs:
   steps:
     - id: mise-env
       shell: bash
-      run: echo "MISE_ENV=$ENVS" > "$GITHUB_ENV" # zizmor: ignore[github-env]
+      run: echo "MISE_ENV=$(echo $ENVS | tr -d '\n')" >> "$GITHUB_ENV" # zizmor: ignore[github-env]
       env:
         ENVS: ${{ inputs.envs }}
 
     - id: mise-action
       uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
       with:
-        version: v2026.11.2
+        version: v2026.11.7
         cache: ${{ inputs.cache }}
 
     - id: cache-node

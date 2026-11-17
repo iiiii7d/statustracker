@@ -218,9 +218,6 @@ importers:
         specifier: 4.6.7
         version: 4.6.7
     devDependencies:
-      '@_7d/eslint-formatter-sarif':
-        specifier: 1.0.1
-        version: 1.0.1
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.15.0(jiti@2.7.0)(supports-color@10.2.2))
@@ -269,9 +266,6 @@ importers:
         version: 25.17.0
 
 packages:
-
-  '@_7d/eslint-formatter-sarif@1.0.1':
-    resolution: {integrity: sha512-yjgWACoWSAafMjt1K6lFSp8EHhftqiyFe0tbhu7TibEmqs3XaDivb/JuriGBHcEYpLBK7pfPK4sZs49/hN5gWQ==}
 
   '@antfu/install-pkg@2.1.0':
     resolution: {integrity: sha512-sdg9NxU3zR4Mnawfbc/x6GB5Wf17WYud5qOuEuxXjaKpYpMkISSJEjItGebXJ2bQ4DIcly4NYH23mtkGJjvKUw==}
@@ -4471,8 +4465,6 @@ packages:
     resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
 snapshots:
-
-  '@_7d/eslint-formatter-sarif@1.0.1': {}
 
   '@antfu/install-pkg@2.1.0':
     dependencies:
