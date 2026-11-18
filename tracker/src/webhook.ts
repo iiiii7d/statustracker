@@ -25,16 +25,19 @@ async function formatMessage(input: string, params: Params): Promise<string> {
       "%countsChartUrl%",
       JSON.stringify(
         `${config.webhooks!.serverUrl}/chart/counts?from=${params.from.toAbsoluteString()}&to=${params.to.toAbsoluteString()}&movingAverages=${params.webhook.movingAverages.join(",")}&chartDimensions=${params.webhook.chartDimensions.join(",")}`,
-      ),
+      ).slice(1, -1),
     )
     .replaceAll(
       "%percentOnlineChartUrl%",
       JSON.stringify(
         `${config.webhooks!.serverUrl}/chart/percentOnline?from=${params.from.toAbsoluteString()}&to=${params.to.toAbsoluteString()}&movingAverages=${params.webhook.movingAverages.join(",")}&chartDimensions=${params.webhook.chartDimensions.join(",")}`,
-      ),
+      ).slice(1, -1),
     )
     .replaceAll("%id%", params.id)
-    .replaceAll("%range%", JSON.stringify(params.webhook.range))
+    .replaceAll(
+      "%range%",
+      JSON.stringify(JSON.stringify(params.webhook.range)).slice(1, -1),
+    )
     .replaceAll(
       "%from%",
       Math.round(params.from.toDate().getTime() / 1000).toString(),
@@ -103,17 +106,16 @@ export default async function task(id: string) {
       break;
     }
     case "discord": {
-      const payloadJson = JSON.parse(
-        await formatMessage(JSON.stringify(webhook.data), {
-          from,
-          to,
-          id,
-          webhook,
-        }),
-      );
+      const payloadJson = await formatMessage(JSON.stringify(webhook.data), {
+        from,
+        to,
+        id,
+        webhook,
+      });
       const formData = new FormData();
+      let fileI = 0;
       formData.append("payload_json", payloadJson);
-      if (webhook.sendCountsChart !== false) {
+      if (webhook.countsChart !== false) {
         const countsChart = Buffer.from(
           await getCountsChart(
             from,
@@ -122,24 +124,26 @@ export default async function task(id: string) {
             webhook.chartDimensions,
           ),
         );
-        formData.append(webhook.sendCountsChart, new Blob([countsChart]));
+        formData.append(
+          `files[${fileI}]`,
+          new Blob([countsChart], { type: "image/png" }),
+          webhook.countsChart,
+        );
+        fileI += 1;
       }
-      if (webhook.sendPercentOnlineChart !== false) {
+      if (webhook.percentOnlineChart !== false) {
         const percentOnlineChart = Buffer.from(
-          await getCountsChart(
-            from,
-            to,
-            webhook.movingAverages,
-            webhook.chartDimensions,
-          ),
+          await getPercentOnlineChart(from, to, webhook.chartDimensions),
         );
         formData.append(
-          webhook.sendPercentOnlineChart,
-          new Blob([percentOnlineChart]),
+          `files[${fileI}]`,
+          new Blob([percentOnlineChart], { type: "image/png" }),
+          webhook.percentOnlineChart,
         );
+        fileI += 1;
       }
 
-      url = `${webhook.baseUrl}/${webhook.webhookId}/${webhook.webhookToken}`;
+      url = `${webhook.baseUrl}/${webhook.webhookId}/${webhook.webhookToken}?with_components=true`;
       request = {
         method: "POST",
         body: formData,
@@ -160,6 +164,7 @@ export default async function task(id: string) {
   } else {
     logger.error(
       `Webhook run \`${id}\` errored (status code ${response.status})`,
+      { body: await response.json() },
     );
   }
 }

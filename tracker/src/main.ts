@@ -24,4 +24,5 @@ for (const [id, { cron: cronExpression }] of Object.entries(
     },
     { name: `webhook-${id}`, noOverlap: true, logger },
   );
+  logger.start(`Started cron job for webhook \`${id}\``);
 }

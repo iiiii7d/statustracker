@@ -19,7 +19,7 @@ const webhookScheduleCommon = {
 };
 const webhookScheduleHTTP = z.object({
   type: z.literal("http"),
-  url: z.httpUrl(),
+  url: z.url(),
   request: z
     .custom<RequestInit>()
     .transform((req) => ({ ...req, method: req.method ?? "POST" })),
@@ -27,29 +27,12 @@ const webhookScheduleHTTP = z.object({
 });
 const webhookScheduleDiscord = z.object({
   type: z.literal("discord"),
-  baseUrl: z.httpUrl().default("https://discord.com/api/webhooks"),
-  webhookId: z.number(),
+  baseUrl: z.url().default("https://discord.com/api/webhooks"),
+  webhookId: z.string(),
   webhookToken: z.string(),
   data: z.custom().default({
     content:
-      "[Server activity](%url%) (%id%) for past %range%\\n-# from <t:%from%:F>\\n-# to <t:%to%:F>",
-    components: [
-      {
-        type: 12,
-        items: [
-          {
-            media: {
-              url: "attachment://counts.png",
-            },
-          },
-          {
-            media: {
-              url: "attachment://percentOnline.png",
-            },
-          },
-        ],
-      },
-    ],
+      "# [Server activity](%url%) (%id%) for past %range%\n-# from <t:%from%:F>\n-# to <t:%to%:F>",
     attachments: [
       {
         id: 0,
@@ -61,11 +44,11 @@ const webhookScheduleDiscord = z.object({
       },
     ],
   }),
-  sendCountsChart: z
+  countsChart: z
     .union([z.boolean(), z.string().nonempty()])
     .default(true)
     .transform((a) => (a === true ? "counts.png" : a)),
-  sendPercentOnlineChart: z
+  percentOnlineChart: z
     .union([z.boolean(), z.string().nonempty()])
     .default(true)
     .transform((a) => (a === true ? "percentOnline.png" : a)),
@@ -73,7 +56,7 @@ const webhookScheduleDiscord = z.object({
 });
 
 const webhookConfigSchema = z.object({
-  serverUrl: z.string(),
+  serverUrl: z.url(),
   schedules: z
     .record(
       z.string().regex(/^\w+$/u),
