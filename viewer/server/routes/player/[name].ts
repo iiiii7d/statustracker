@@ -83,8 +83,8 @@ export default defineEventHandler(async (event): Promise<PlayerAPIJson> => {
         .select((eb) =>
           eb
             .case()
-            .when("join", "<", new SQLZonedDateTime(to))
-            .then(new SQLZonedDateTime(to))
+            .when("join", "<", new SQLZonedDateTime(from))
+            .then(new SQLZonedDateTime(from))
             .else(sql.ref("join"))
             .end()
             .as("join"),
