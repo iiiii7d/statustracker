@@ -15,18 +15,21 @@ const schema = z
       .default(now().add({ minutes: 1 })),
     movingAverages: z
       .preprocess(
-        (a) => (typeof a === "string" ? a.split(",") : a),
+        (a) =>
+          typeof a === "string" ? a.split(",").map((b) => parseInt(b)) : a,
         z
-          .preprocess(
-            (a) => (typeof a === "string" ? parseInt(a) : a),
-            z.int().gte(0),
-          )
+          .int()
+          .gte(0)
           .array()
           .refine((arr) => arr.length === new Set(arr).size),
       )
       .default([0, 1]),
     chartDimensions: z
-      .tuple([z.number().gt(0), z.number().gt(0)])
+      .preprocess(
+        (a) =>
+          typeof a === "string" ? a.split(",").map((b) => parseInt(b)) : a,
+        z.tuple([z.number().gt(0), z.number().gt(0)]),
+      )
       .default([1920, 1080]),
   })
   .refine(

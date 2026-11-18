@@ -20,30 +20,66 @@ const webhookScheduleCommon = {
 const webhookScheduleHTTP = z.object({
   type: z.literal("http"),
   url: z.httpUrl(),
-  method: z.string().default("POST"),
-  data: z.looseObject({}).optional(),
+  request: z
+    .custom<RequestInit>()
+    .transform((req) => ({ ...req, method: req.method ?? "POST" })),
   ...webhookScheduleCommon,
 });
-
-// const webhookScheduleDiscord = z.object({
-//   type: z.literal("discord"),
-//   client: z.custom<WebhookClientData>().transform((a) => new WebhookClient(a)),
-//   message: z
-//     .string()
-//     .default(
-//       "[Server activity](%url%) (%id%) for past %range%\n-# from <t:%from%:F>\n-# to <t:%to%:F>",
-//     ),
-//   ...webhookScheduleCommon,
-// });
+const webhookScheduleDiscord = z.object({
+  type: z.literal("discord"),
+  baseUrl: z.httpUrl().default("https://discord.com/api/webhooks"),
+  webhookId: z.number(),
+  webhookToken: z.string(),
+  data: z.custom().default({
+    content:
+      "[Server activity](%url%) (%id%) for past %range%\\n-# from <t:%from%:F>\\n-# to <t:%to%:F>",
+    components: [
+      {
+        type: 12,
+        items: [
+          {
+            media: {
+              url: "attachment://counts.png",
+            },
+          },
+          {
+            media: {
+              url: "attachment://percentOnline.png",
+            },
+          },
+        ],
+      },
+    ],
+    attachments: [
+      {
+        id: 0,
+        filename: "counts.png",
+      },
+      {
+        id: 1,
+        filename: "percentOnline.png",
+      },
+    ],
+  }),
+  sendCountsChart: z
+    .union([z.boolean(), z.string().nonempty()])
+    .default(true)
+    .transform((a) => (a === true ? "counts.png" : a)),
+  sendPercentOnlineChart: z
+    .union([z.boolean(), z.string().nonempty()])
+    .default(true)
+    .transform((a) => (a === true ? "percentOnline.png" : a)),
+  ...webhookScheduleCommon,
+});
 
 const webhookConfigSchema = z.object({
   serverUrl: z.string(),
   schedules: z
     .record(
-      z.string(),
+      z.string().regex(/^\w+$/u),
       z.discriminatedUnion("type", [
         webhookScheduleHTTP,
-        // webhookScheduleDiscord,
+        webhookScheduleDiscord,
       ]),
     )
     .refine((a) => Object.keys(a).length >= 1),
