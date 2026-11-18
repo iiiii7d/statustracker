@@ -67,6 +67,7 @@ const configSchema = z.object({
   webhooks: webhookConfigSchema.optional(),
   deleteOldCategories: z.boolean().default(false),
   countsApproxMaxLength: z.int().gte(1).default(1000),
+  serverPauseGracePeriodMinutes: z.int().gte(1).default(19),
 });
 
 export type Config = z.infer<typeof configSchema>;

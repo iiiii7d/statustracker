@@ -5,11 +5,8 @@ import db, {
 import { sql, type Transaction } from "kysely";
 import logger from "shared/logger.ts";
 import config from "shared/backend/config.ts";
-import {
-  nameToUUID,
-  currentTimestamp,
-  previousTimestamp,
-} from "shared/backend/index.ts";
+import { nameToUUID, currentTimestamp } from "shared/backend/index.ts";
+import { now } from "shared/index.ts";
 
 async function currentPlayerList(): Promise<string[]> {
   logger.info(`Retrieving current player list from ${config.dynmapLink}`);
@@ -96,15 +93,6 @@ async function updatePlayersLeave(
 }
 
 async function closePlayerEntriesIfPaused(trx: Transaction<Database>) {
-  if (
-    (await trx
-      .selectFrom("counts")
-      .where("timestamp", "=", previousTimestamp)
-      .executeTakeFirst()) !== undefined
-  )
-    return;
-
-  logger.info("Server was paused. Completing last player entries");
   const lastTimestamp = (
     await trx
       .selectFrom("counts")
@@ -114,7 +102,23 @@ async function closePlayerEntriesIfPaused(trx: Transaction<Database>) {
       .executeTakeFirst()
   )?.timestamp;
 
-  if (lastTimestamp === undefined) return;
+  if (lastTimestamp === undefined) {
+    logger.debug("Did not complete last player entries, fresh table");
+    return;
+  }
+
+  if (
+    now()
+      .subtract({ minutes: config.serverPauseGracePeriodMinutes })
+      .compare(lastTimestamp) < 0
+  ) {
+    logger.debug(
+      "Did not complete last player entries, within server pause grace period",
+    );
+    return;
+  }
+
+  logger.info("Server was paused. Completing last player entries");
 
   await trx
     .updateTable("players")
