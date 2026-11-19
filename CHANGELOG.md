@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.0.0-beta.1 (20261120)
+
+- allow UUIDs without hyphens
+
 ## v4.0.0-beta.0 (20261119)
 
 Rewrite of Statustracker
