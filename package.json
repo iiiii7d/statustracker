@@ -1,6 +1,6 @@
 {
   "name": "statustracker3",
-  "version": "3.1.39",
+  "version": "3.1.40",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,49 +12,46 @@
     "type-check": "nuxt typecheck",
     "lint": "eslint ${@:-.}",
     "lint:fix": "eslint --fix ${@:-.}",
-    "lint:sarif": "eslint -f @_7d/eslint-formatter-sarif --fix ${@:-.} || true",
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}",
     "gen-licenses": "pnpm licenses ls --long -P > public/licenses.txt"
   },
   "dependencies": {
-    "@tsconfig/strictest": "2.0.8",
+    "@tsconfig/strictest": "2.0.9",
     "chart.js": "4.6.1",
     "chartjs-adapter-date-fns": "3.0.0",
     "chartjs-plugin-annotation": "3.1.0",
     "date-fns": "4.4.0",
-    "kysely": "0.29.8",
+    "kysely": "0.29.9",
     "nuxt": "4.6.4",
     "pg": "8.23.1",
     "tslib": "2.9.1",
     "vue-chartjs": "5.3.4",
-    "vue-router": "5.4.0",
+    "vue-router": "5.5.1",
     "winston": "3.19.0",
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@_7d/eslint-formatter-sarif": "1.0.1",
     "@eslint/js": "10.0.1",
     "@nuxt/eslint": "1.17.0",
     "@types/pg": "8.23.1",
-    "eslint": "10.14.0",
+    "eslint": "10.15.0",
     "eslint-config-flat-gitignore": "2.4.0",
     "eslint-config-prettier": "10.1.8",
     "globals": "17.14.0",
-    "prettier": "3.9.10",
+    "prettier": "3.10.1",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.72.1",
+    "typescript-eslint": "8.72.2",
     "vue-eslint-parser": "10.4.2",
     "vue-tsc": "3.3.14"
   },
   "optionalDependencies": {
-    "cron-parser": "5.10.4",
+    "cron-parser": "5.10.6",
     "discord.js": "14.28.1",
-    "puppeteer": "25.16.0"
+    "puppeteer": "25.17.0"
   },
   "overrides": {
-    "readdir-glob": "3.0.0",
-    "glob": "14.0.4"
+    "glob": "14.0.6"
   },
-  "packageManager": "pnpm@12.18.0"
+  "packageManager": "pnpm@12.21.0"
 }

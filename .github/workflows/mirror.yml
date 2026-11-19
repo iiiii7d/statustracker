@@ -7,11 +7,13 @@ on:
     branches: "**"
     tags: "**"
 
+permissions: {}
 concurrency:
   group: git-mirror
 
 jobs:
   mirror-tangled:
+    name: Tangled
     runs-on: ubuntu-latest
     environment: mirror-tangled
     permissions:

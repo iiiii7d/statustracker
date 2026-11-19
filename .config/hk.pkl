@@ -1,33 +1,31 @@
-amends "package://github.com/jdx/hk/releases/download/v2.11.1/hk@2.11.1#/Config.pkl"
-import "package://github.com/jdx/hk/releases/download/v2.11.1/hk@2.11.1#/Builtins.pkl"
-import "package://github.com/iiiii7d/hk/releases/download/v2.8.0-7/hk@2.8.0-7#/Pnpm.pkl"
-import "package://github.com/iiiii7d/hk/releases/download/v2.8.0-7/hk@2.8.0-7#/Misc.pkl"
+amends "package://github.com/jdx/hk/releases/download/v2.12.0/hk@2.12.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v2.12.0/hk@2.12.0#/Builtins.pkl"
+import "package://github.com/iiiii7d/hk/releases/download/v2.12.0-11/hk@2.12.0-11#/Pnpm.pkl"
+import "package://github.com/iiiii7d/hk/releases/download/v2.12.0-11/hk@2.12.0-11#/Misc.pkl"
 
 local init = new Step {
-    check = "pnpm i"
+    check = "pnpm ci"
     exclusive = true
 }
 
 local formatters = new Mapping<String, Step> {
-    ["prettier"] = Pnpm.pnpm_format
+    ["prettier"] = Pnpm.format
 }
 local linters = new Mapping<String, Step> {
-    ["eslint"] = Pnpm.pnpm_lint
-    ["zizmor"] = Misc.zizmor
+    ["eslint"] = Pnpm.lint
+    ...Misc.zizmor.steps
     ["actionlint"] = Misc.actionlint
-    ["poutine"] = Misc.poutine
-    ["hadolint"] = Misc.hadolint
+    ...Misc.poutine.steps
+    ...Misc.hadolint.steps
 }
 local type_checkers = new Mapping<String, Step> {
-    ["tsc"] = Pnpm.pnpm_type_check
+    ["tsc"] = Pnpm.type_check
 }
-local sarif = new Mapping<String, Step> {
-    ["mkdir"] = Misc.mkdir_sarif(".sarif")
-    ["eslint"] = Pnpm.pnpm_lint_sarif(".sarif")
-    ["zizmor"] = Misc.zizmor_sarif(".sarif")
-    ["actionlint"] = Misc.actionlint_sarif(".sarif")
-    ["poutine"] = Misc.poutine_sarif(".sarif")
-    ["hadolint"] = Misc.hadolint_sarif(".sarif")
+
+steps = new Mapping<String, Step | Group> {
+    ["init"] = init
+    ...formatters
+    ...linters
     ...type_checkers
 }
 
@@ -35,42 +33,5 @@ hooks {
     ["pre-commit"] {
         fix = true
         stash = "git"
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...formatters
-            ...linters
-            ...type_checkers
-        }
-    }
-    ["fix"] {
-        fix = true
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...formatters
-            ...linters
-            ...type_checkers
-        }
-    }
-    ["check"] {
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...formatters
-            ...linters
-            ...type_checkers
-        }
-    }
-    ["format"] {
-        fix = true
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...formatters
-        }
-    }
-    ["sarif"] {
-        fix = true
-        steps = new Mapping<String, Step | Group> {
-            ["init"] = init
-            ...sarif
-        }
     }
 }
