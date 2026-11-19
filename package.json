@@ -16,10 +16,6 @@
     "dev": "pnpm run -r dev",
     "build": "pnpm run -r build"
   },
-  "files": [
-    "shared",
-    "tsconfig.json"
-  ],
   "dependencies": {
     "@tsconfig/strictest": "2.0.9"
   },
