@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.0.0-beta.3 (20261120)
+
+- fix migration for categories with null values
+
 ## v4.0.0-beta.2 (20261120)
 
 - remove extra `cat_` in migration

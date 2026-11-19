@@ -61,9 +61,8 @@ export default {
               // @ts-expect-error
               .select("timestamp")
               .select(sql.lit(cat).as("category"))
-              .select(
-                sql.ref(cat === "all" ? "all" : `cat_${cat}`).as("value"),
-              ),
+              .select(sql.ref(cat === "all" ? "all" : `cat_${cat}`).as("value"))
+              .where("value", "is not", null),
           )
           .execute(),
       ),
