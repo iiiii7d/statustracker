@@ -9,6 +9,7 @@ if (route.path !== "/")
 <template>
   <UApp>
     <UMain class="mx-8">
+      <LoadingProgressBar />
       <CountsChart />
       <section
         id="input"

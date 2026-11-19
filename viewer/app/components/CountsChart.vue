@@ -8,7 +8,7 @@ import {
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart, { THEME_KEY } from "vue-echarts";
-import { counts, loading, player } from "~/state.ts";
+import { counts, player } from "~/state.ts";
 import {
   getCountsChartOption,
   getPlayTimes,
@@ -39,11 +39,6 @@ const option = computed(() =>
 
 <template>
   <div class="h-[75svh]!">
-    <VChart
-      class="chart"
-      :option="option"
-      autoresize
-      :loading="loading !== 0"
-    />
+    <VChart class="chart" :option="option" autoresize />
   </div>
 </template>

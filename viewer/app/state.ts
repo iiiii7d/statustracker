@@ -10,10 +10,10 @@ import type * as dt from "@internationalized/date";
 
 export const loading = ref(0);
 export const wrapLoading =
-  <T>(f: () => T): (() => T) =>
-  () => {
+  <T>(f: () => Promise<T>): (() => Promise<T>) =>
+  async () => {
     loading.value += 1;
-    const result = f();
+    const result = await f();
     loading.value -= 1;
     return result;
   };

@@ -31,11 +31,9 @@ const playDuration = computed(() => {
 
     <UCollapsible :open="playerUsername !== ''" class="mt-2">
       <template #content>
-        <UProgress
-          v-if="player?.username !== playerUsername"
-          id="player-stats"
-          class="px-8"
-        />
+        <template v-if="player?.username !== playerUsername"
+          >Loading...</template
+        >
         <template v-else-if="player?.ty === 'noPlayer'">
           No such player <b>{{ playerUsername }}</b>
         </template>
