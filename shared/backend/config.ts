@@ -25,7 +25,7 @@ const webhookScheduleHTTP = z.object({
   url: z.url(),
   request: z
     .custom<RequestInit>()
-    .transform((req) => ({ ...req, method: req.method ?? "POST" })),
+    .transform((req) => ({ method: "POST", ...req })),
   ...webhookScheduleCommon,
 });
 const webhookScheduleDiscord = z.object({
@@ -97,7 +97,7 @@ const configSchema = z.object({
   categories: z.record(z.string(), categorySchema).default({}),
   webhooks: webhookConfigSchema.optional(),
   countsApproxMaxLength: z.int().gte(1).default(1000),
-  serverPauseGracePeriodMinutes: z.int().gte(1).default(19),
+  serverPauseGracePeriodMinutes: z.int().gte(1).default(10),
 });
 
 export type RawConfig = z.infer<typeof configSchema>;
