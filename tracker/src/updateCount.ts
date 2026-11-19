@@ -102,19 +102,14 @@ async function closePlayerEntriesIfPaused(trx: Transaction<Database>) {
       .executeTakeFirst()
   )?.timestamp;
 
-  if (lastTimestamp === undefined) {
-    logger.debug("Did not complete last player entries, fresh table");
-    return;
-  }
+  if (lastTimestamp === undefined) return;
 
   if (
     now()
       .subtract({ minutes: config.serverPauseGracePeriodMinutes })
       .compare(lastTimestamp) < 0
   ) {
-    logger.debug(
-      "Did not complete last player entries, within server pause grace period",
-    );
+    logger.debug("Within server pause grace period");
     return;
   }
 
