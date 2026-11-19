@@ -95,7 +95,6 @@ const configSchema = z.object({
   db: z.custom<PoolConfig>().transform((a) => new Pool(a)),
   categories: z.record(z.string(), categorySchema).default({}),
   webhooks: webhookConfigSchema.optional(),
-  deleteOldCategories: z.boolean().default(false),
   countsApproxMaxLength: z.int().gte(1).default(1000),
   serverPauseGracePeriodMinutes: z.int().gte(1).default(19),
 });
