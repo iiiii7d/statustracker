@@ -66,7 +66,7 @@ export async function migrateDB() {
       async getMigrations(): Promise<Record<string, Migration>> {
         return {
           "000000000": (await import("./migrations/3.ts")).default,
-          "000000001": (await import("./migrations/4.0.0.ts")).default,
+          "000000001": (await import("./migrations/4.0.0-beta.0.ts")).default,
         };
       },
     },

@@ -7,7 +7,7 @@ import { currentTimestamp } from "../../index.ts";
 export default {
   // eslint-disable-next-line max-lines-per-function
   async up(db: Kysely<Database>): Promise<void> {
-    logger.info("Runnning migrations for v4.0.0");
+    logger.info("Runnning migrations for v4.0.0-beta.0");
 
     await db.schema
       .createTable("counts")

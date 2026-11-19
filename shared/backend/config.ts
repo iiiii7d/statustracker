@@ -113,9 +113,7 @@ export function getConfig(): RawConfig {
     return configSchema.parse(JSON.parse(process.env.CONFIG));
   }
 
-  const configPath =
-    process.env.CONFIG_PATH ??
-    (process.env.DOCKER ? "../config.json" : "config.json");
+  const configPath = process.env.CONFIG_PATH ?? "config.json";
   if (fs.existsSync(configPath)) {
     logger.start(`Using config found in \`${configPath}\``);
     return configSchema.parse(
