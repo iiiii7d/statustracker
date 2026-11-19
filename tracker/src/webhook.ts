@@ -33,7 +33,7 @@ async function formatMessage(input: string, params: Params): Promise<string> {
         `${config.webhooks!.serverUrl}/chart/percentOnline?from=${params.from.toAbsoluteString()}&to=${params.to.toAbsoluteString()}&movingAverages=${params.webhook.movingAverages.join(",")}&chartDimensions=${params.webhook.chartDimensions.join(",")}`,
       ).slice(1, -1),
     )
-    .replaceAll("%id%", params.id)
+    .replaceAll("%id%", JSON.stringify(params.id).slice(1, -1))
     .replaceAll(
       "%range%",
       JSON.stringify(JSON.stringify(params.webhook.range)).slice(1, -1),

@@ -59,7 +59,7 @@ const webhookConfigSchema = z.object({
   serverUrl: z.url(),
   schedules: z
     .record(
-      z.string().regex(/^\w+$/u),
+      z.string(),
       z.discriminatedUnion("type", [
         webhookScheduleHTTP,
         webhookScheduleDiscord,
