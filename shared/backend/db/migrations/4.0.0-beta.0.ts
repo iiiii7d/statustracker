@@ -47,7 +47,8 @@ export default {
     const v3Categories = (await db.introspection.getTables())
       .filter((table) => table.name === "counts_v3")[0]!
       .columns.map((c) => c.name)
-      .filter((n) => n !== "timestamp");
+      .filter((n) => n !== "timestamp")
+      .map((n) => n.replace(/^cat_/u, ""));
     await Promise.all(
       v3Categories.map((cat) =>
         db
