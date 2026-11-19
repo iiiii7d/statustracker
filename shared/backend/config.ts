@@ -75,7 +75,7 @@ const categorySchema = z.object({
   players: z
     .union([
       z.object({
-        uuid: z.uuid(),
+        uuid: z.union([z.uuid(), z.string().regex(/^[0-9a-f]{16}$/u)]),
         from: z
           .string()
           .transform((a) => dt.parseAbsoluteToLocal(a))
@@ -85,7 +85,7 @@ const categorySchema = z.object({
           .transform((a) => dt.parseAbsoluteToLocal(a))
           .optional(),
       }),
-      z.uuid(),
+      z.union([z.uuid(), z.string().regex(/^[0-9a-f]{16}$/u)]),
     ])
     .array(),
   colour: z.string().regex(/^#(?:[0-9a-f]{3}){1,2}$/u),
