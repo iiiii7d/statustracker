@@ -236,6 +236,9 @@ importers:
       echarts:
         specifier: 6.1.0
         version: 6.1.0
+      json5:
+        specifier: 2.2.3
+        version: 2.2.3
       kysely:
         specifier: 0.29.9
         version: 0.29.9
@@ -263,6 +266,9 @@ importers:
       echarts:
         specifier: 6.1.0
         version: 6.1.0
+      json5:
+        specifier: 2.2.3
+        version: 2.2.3
       kysely:
         specifier: 0.29.9
         version: 0.29.9
@@ -305,6 +311,9 @@ importers:
       echarts:
         specifier: 6.1.0
         version: 6.1.0
+      json5:
+        specifier: 2.2.3
+        version: 2.2.3
       kysely:
         specifier: 0.29.9
         version: 0.29.9

@@ -5,6 +5,7 @@ import * as fs from "node:fs";
 import logger from "../logger.ts";
 import type { CategoriesAPI } from "../api.ts";
 import { now } from "../index.ts";
+import JSON5 from "json5";
 
 const webhookScheduleCommon = {
   cron: z.string(),
@@ -109,14 +110,14 @@ export type Config = RawConfig & {
 export function getConfig(): RawConfig {
   if (process.env.CONFIG) {
     logger.start("Using config found in `CONFIG`");
-    return configSchema.parse(JSON.parse(process.env.CONFIG));
+    return configSchema.parse(JSON5.parse(process.env.CONFIG));
   }
 
   const configPath = process.env.CONFIG_PATH ?? "config.json";
   if (fs.existsSync(configPath)) {
     logger.start(`Using config found in \`${configPath}\``);
     return configSchema.parse(
-      JSON.parse(fs.readFileSync(configPath).toString()),
+      JSON5.parse(fs.readFileSync(configPath).toString()),
     );
   }
 
