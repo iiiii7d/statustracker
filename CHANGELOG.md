@@ -1,5 +1,20 @@
 # Changelog
 
+## v4.0.0-beta.0 (20261119)
+
+Rewrite of Statustracker
+
+- added most things from v3
+- now split into two separate services: tracker (webhooks + count updates), viewer (web server and client)
+- chart rendering no longer requires `puppeteer`
+- new UI with `@nuxt/ui`
+  - % online statistics is now a chart instead of just text
+- config changes
+  - JSON5 support
+  - new config option `serverPauseGracePeriodMinutes`
+  - optional periods for which a user is in a category (for future recalculation feature)
+  - HTTP webhoooks, and Discord webhooks without `discord.js`
+
 ## v3.1.40 (20261119)
 
 - upgrade dependencies
