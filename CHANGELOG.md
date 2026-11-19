@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.0.0-beta.2 (20261120)
+
+- remove extra `cat_` in migration
+
 ## v4.0.0-beta.1 (20261120)
 
 - allow UUIDs without hyphens
