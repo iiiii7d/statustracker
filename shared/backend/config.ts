@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "zod";
 import { Pool, type PoolConfig } from "pg";
 import * as dt from "@internationalized/date";
 import * as fs from "node:fs";

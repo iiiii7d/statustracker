@@ -1,5 +1,5 @@
 import * as dt from "@internationalized/date";
-import { z } from "zod/v4";
+import { z } from "zod";
 import { getCountsChart } from "shared/backend/db/counts.ts";
 import logger from "shared/logger.ts";
 import { now } from "shared/index.ts";

@@ -4,6 +4,7 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 ENV NODE_ENV="production"
 
 COPY ./.config .config
+ENV MISE_ENV=""
 RUN mise trust && mise install && eval "$(mise activate bash)"
 
 COPY tracker/package.json package.json pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -13,6 +14,7 @@ RUN pnpm ci -P
 COPY tracker/ .
 COPY shared/ ../shared
 COPY tsconfig.json ..
+ENV EXTERNAL_CANVAS=true
 RUN pnpm run build
 
 
@@ -22,4 +24,5 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 ENV NODE_ENV="production"
 
 COPY --from=build app/tracker/dist/ ./
+COPY --from=build app/tracker/node_modules/canvas ./node_modules/canvas
 CMD ["node", "./tracker.js"]

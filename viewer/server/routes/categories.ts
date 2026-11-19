@@ -2,7 +2,7 @@ import type { CategoriesAPI } from "shared/api.ts";
 import logger from "shared/logger.ts";
 import config from "shared/backend/config.ts";
 import * as dt from "@internationalized/date";
-import { z } from "zod/v4";
+import { z } from "zod";
 import { now } from "shared/index.ts";
 
 const schema = z.object({

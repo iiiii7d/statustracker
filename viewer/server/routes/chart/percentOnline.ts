@@ -1,5 +1,5 @@
 import * as dt from "@internationalized/date";
-import { z } from "zod/v4";
+import { z } from "zod";
 import { getPercentOnlineChart } from "shared/backend/db/percentOnline.ts";
 import logger from "shared/logger.ts";
 import { now } from "shared/index.ts";

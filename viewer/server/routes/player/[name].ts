@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "zod";
 import { sql } from "kysely";
 import * as dt from "@internationalized/date";
 import db, { SQLZonedDateTime } from "shared/backend/db/index.ts";

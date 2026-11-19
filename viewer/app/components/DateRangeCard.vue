@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { from, to, dateInvalid } from "~/state.ts";
 import * as dt from "@internationalized/date";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import { now } from "shared/index.ts";
 

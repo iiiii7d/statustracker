@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "zod";
 import * as dt from "@internationalized/date";
 import type { PercentOnlineAPI } from "shared/api.ts";
 import { getPercentOnline } from "shared/backend/db/percentOnline.ts";

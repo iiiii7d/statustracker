@@ -38,7 +38,7 @@ services:
     networks:
       - statustracker
     volumes:
-      - "<host_config_path>:config.json"
+      - "<host_config_path>:/app/config.json"
   statustracker-viewer:
     image: ghcr.io/iiiii7d/statustracker:viewer-latest
     networks:
@@ -46,7 +46,7 @@ services:
     ports:
       - "<host_port>:3000"
     volumes:
-      - "<host_config_path>:config.json"
+      - "<host_config_path>:/app/config.json"
 ```
 
 ## Configuration

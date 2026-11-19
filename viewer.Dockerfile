@@ -4,6 +4,7 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 ENV NODE_ENV="production"
 
 COPY ./.config .config
+ENV MISE_ENV=""
 RUN mise trust && mise install && eval "$(mise activate bash)"
 
 COPY viewer/package.json package.json pnpm-lock.yaml pnpm-workspace.yaml ./

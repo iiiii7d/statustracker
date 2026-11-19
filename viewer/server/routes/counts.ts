@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "zod";
 import * as dt from "@internationalized/date";
 import { countsAPI, type CountsAPIJson } from "shared/api.ts";
 import logger from "shared/logger.ts";
