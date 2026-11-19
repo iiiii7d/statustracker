@@ -37,13 +37,14 @@ async function updateCounts(trx: Transaction<Database>, playerList: string[]) {
       value: playerList.length,
     })
     .execute();
-  if (Object.keys(config.categories).length === 0) {
+  const currentCategories = config.currentCategories();
+  if (Object.keys(currentCategories).length === 0) {
     return;
   }
   await trx
     .insertInto("counts")
     .values(
-      Object.entries(config.categories).map(([cat, { uuids }]) => ({
+      Object.entries(currentCategories).map(([cat, { uuids }]) => ({
         timestamp: currentTimestamp,
         category: cat,
         value: playerList.filter((a) => uuids.includes(a)).length,

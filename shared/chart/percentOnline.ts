@@ -1,8 +1,8 @@
 import type * as echarts from "echarts";
-import type { CategoriesAPI, PercentOnlineAPI } from "../api.ts";
+import type { PercentOnlineAPI } from "../api.ts";
 
 export function getPercentOnlineChartOption(
-  categories: CategoriesAPI,
+  categories: Record<string, { colour: string }>,
   percentages: PercentOnlineAPI,
 ): echarts.ComposeOption<
   | echarts.BarSeriesOption

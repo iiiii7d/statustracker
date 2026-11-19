@@ -80,7 +80,7 @@ export async function getCountsChart(
       ),
     ),
   );
-  const series = getSeries(counts, config.categories);
+  const series = getSeries(counts, config.currentCategories());
 
   const option = getCountsChartOption(series);
   chart.setOption({ ...option, backgroundColor: "#111" });

@@ -1,8 +1,10 @@
 import { z } from "zod/v4";
 import { Pool, type PoolConfig } from "pg";
-import type * as dt from "@internationalized/date";
+import * as dt from "@internationalized/date";
 import * as fs from "node:fs";
 import logger from "../logger.ts";
+import type { CategoriesAPI } from "../api.ts";
+import { now } from "../index.ts";
 
 const webhookScheduleCommon = {
   cron: z.string(),
@@ -68,31 +70,44 @@ const webhookConfigSchema = z.object({
     .refine((a) => Object.keys(a).length >= 1),
 });
 
+const categorySchema = z.object({
+  players: z
+    .union([
+      z.object({
+        uuid: z.uuid(),
+        from: z
+          .string()
+          .transform((a) => dt.parseAbsoluteToLocal(a))
+          .optional(),
+        to: z
+          .string()
+          .transform((a) => dt.parseAbsoluteToLocal(a))
+          .optional(),
+      }),
+      z.uuid(),
+    ])
+    .array(),
+  colour: z.string().regex(/^#(?:[0-9a-f]{3}){1,2}$/u),
+});
+
 const configSchema = z.object({
   dynmapLink: z.url(),
   db: z.custom<PoolConfig>().transform((a) => new Pool(a)),
-  categories: z
-    .record(
-      z.string(),
-      z.object({
-        uuids: z
-          .string()
-          .regex(/^[0-9a-fA-F]{32}$/u)
-          .array(),
-        colour: z.string().regex(/^#(?:[0-9a-f]{3}){1,2}$/u),
-      }),
-    )
-    .default({}),
+  categories: z.record(z.string(), categorySchema).default({}),
   webhooks: webhookConfigSchema.optional(),
   deleteOldCategories: z.boolean().default(false),
   countsApproxMaxLength: z.int().gte(1).default(1000),
   serverPauseGracePeriodMinutes: z.int().gte(1).default(19),
 });
 
-export type Config = z.infer<typeof configSchema>;
+export type RawConfig = z.infer<typeof configSchema>;
+export type Config = RawConfig & {
+  categoriesAsOf: (timestamp: dt.ZonedDateTime) => CategoriesAPI;
+  currentCategories: () => CategoriesAPI;
+};
 
 // eslint-disable-next-line consistent-return
-export function getConfig(): Config {
+export function getConfig(): RawConfig {
   if (process.env.CONFIG) {
     logger.start("Using config found in `CONFIG`");
     return configSchema.parse(JSON.parse(process.env.CONFIG));
@@ -111,4 +126,33 @@ export function getConfig(): Config {
   logger.fatal(`Could not find config at ${configPath}`);
   process.exit(1);
 }
-export default getConfig();
+
+export function addDerivedAttrs(config: RawConfig): Config {
+  return {
+    ...config,
+    categoriesAsOf(timestamp: dt.ZonedDateTime): CategoriesAPI {
+      return Object.fromEntries(
+        Object.entries(config.categories).map(([id, { players, colour }]) => {
+          const uuids = players
+            .filter((player) => {
+              if (typeof player === "string") return true;
+              return (
+                (player.from === undefined ||
+                  player.from.compare(timestamp) <= 0) &&
+                (player.to === undefined || player.to.compare(timestamp) >= 0)
+              );
+            })
+            .map((player) =>
+              typeof player === "string" ? player : player.uuid,
+            );
+          return [id, { uuids, colour }];
+        }),
+      );
+    },
+    currentCategories(): CategoriesAPI {
+      return this.categoriesAsOf(now());
+    },
+  };
+}
+
+export default addDerivedAttrs(getConfig());
