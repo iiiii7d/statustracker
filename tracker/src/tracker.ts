@@ -4,6 +4,8 @@ import updateCount from "./updateCount.ts";
 import task from "./webhook.ts";
 import { migrateDB } from "shared/backend/db/index.ts";
 import logger from "shared/logger.ts";
+import { getPercentOnlineChart } from "../../shared/backend/db/percentOnline.ts";
+import { now } from "shared/index.ts";
 
 await migrateDB();
 
@@ -26,3 +28,5 @@ for (const [id, { cron: cronExpression }] of Object.entries(
   );
   logger.start(`Started cron job for webhook \`${id}\``);
 }
+
+await getPercentOnlineChart(now(), now(), [1928, 233]);

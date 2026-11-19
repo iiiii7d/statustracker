@@ -12,7 +12,6 @@
     "type-check": "nuxt typecheck",
     "lint": "eslint ${@:-.}",
     "lint:fix": "eslint --fix ${@:-.}",
-    "lint:sarif": "eslint -f @_7d/eslint-formatter-sarif --fix ${@:-.} || true",
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}",
     "gen-licenses": "pnpm licenses ls --long -P > public/licenses.txt"
@@ -23,7 +22,6 @@
     "@nuxt/ui": "4.12.0",
     "@tsconfig/strictest": "2.0.9",
     "@vueuse/nuxt": "15.0.0",
-    "canvas": "3.2.3",
     "consola": "3.4.2",
     "echarts": "6.1.0",
     "kysely": "0.29.9",

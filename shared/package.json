@@ -1,0 +1,25 @@
+{
+  "name": "statustracker4-shared",
+  "version": "4.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "lint": "eslint ${@:-.}",
+    "lint:fix": "eslint --fix ${@:-.}",
+    "format": "prettier --write ${@:-.}",
+    "format:check": "prettier --check ${@:-.}"
+  },
+  "peerDependencies": {
+    "@internationalized/date": "3.12.4",
+    "@tsconfig/strictest": "2.0.9",
+    "canvas": "4.0.0-rc3",
+    "consola": "3.4.2",
+    "echarts": "6.1.0",
+    "kysely": "0.29.9",
+    "node-cron": "4.6.0",
+    "pg": "8.23.1",
+    "zod": "4.6.7"
+  },
+  "packageManager": "pnpm@12.21.0"
+}

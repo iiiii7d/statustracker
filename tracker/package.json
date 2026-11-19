@@ -4,12 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "rolldown src/main.ts --no-codeSplitting --file dist/tracker.js",
-    "dev": "node src/main.ts",
+    "build": "rolldown -c",
+    "dev": "node src/tracker.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint ${@:-.}",
     "lint:fix": "eslint --fix ${@:-.}",
-    "lint:sarif": "eslint -f @_7d/eslint-formatter-sarif --fix ${@:-.} || true",
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}"
   },
