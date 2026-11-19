@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.1.39 (20261112)
+
+- upgrade dependencies
+
+## v3.1.38 (20261107)
+
+- upgrade dependencies
+
 ## v3.1.37 (20261022)
 
 - upgrade dependencies
