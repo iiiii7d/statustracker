@@ -13,9 +13,11 @@ export const wrapLoading =
   <T>(f: () => Promise<T>): (() => Promise<T>) =>
   async () => {
     loading.value += 1;
-    const result = await f();
-    loading.value -= 1;
-    return result;
+    try {
+      return await f();
+    } finally {
+      loading.value -= 1;
+    }
   };
 
 export const from = shallowRef<dt.ZonedDateTime | undefined>();
