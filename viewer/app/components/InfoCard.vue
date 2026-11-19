@@ -9,7 +9,7 @@
         <UIcon name="simple-icons:github" class="size-4 translate-y-0.5" />
         GitHub
       </ULink>
-      <ULink href="https://tangled.org/777d.tngl.sh/statustracker">
+      <ULink href="https://tangled.org/7--d.tngl.sh/statustracker">
         <UIcon
           name="lucide:mirror-rectangular"
           class="size-4 translate-y-0.5"
