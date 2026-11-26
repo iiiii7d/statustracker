@@ -14,7 +14,6 @@ RUN pnpm ci -P
 COPY tracker/ .
 COPY shared/ ../shared
 COPY tsconfig.json ..
-ENV EXTERNAL_CANVAS=true
 RUN pnpm run build
 
 
@@ -24,5 +23,4 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 ENV NODE_ENV="production"
 
 COPY --from=build app/tracker/dist/ ./
-COPY --from=build app/tracker/node_modules/canvas ./node_modules/canvas
 CMD ["node", "./tracker.js"]

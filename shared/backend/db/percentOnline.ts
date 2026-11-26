@@ -2,7 +2,7 @@ import db, { SQLZonedDateTime } from "./index.ts";
 import type * as dt from "@internationalized/date";
 import * as echarts from "echarts";
 import type { PercentOnlineAPI } from "../../api.ts";
-import { createCanvas } from "canvas";
+import { Canvas } from "skia-canvas";
 import { getPercentOnlineChartOption } from "../../chart/percentOnline.ts";
 import config from "../config.ts";
 
@@ -55,7 +55,7 @@ export async function getPercentOnlineChart(
   to: dt.ZonedDateTime,
   chartDimensions: [number, number],
 ): Promise<Buffer<ArrayBufferLike>> {
-  const canvas = createCanvas(...chartDimensions);
+  const canvas = new Canvas(...chartDimensions);
   const chart = echarts.init(canvas as never);
 
   const percentages = await getPercentOnline(from, to);

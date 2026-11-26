@@ -4,7 +4,7 @@ import type * as dt from "@internationalized/date";
 import config from "../config.ts";
 import * as echarts from "echarts";
 import type { CountsAPI } from "../../api.ts";
-import { createCanvas } from "canvas";
+import { Canvas } from "skia-canvas";
 import { getCountsChartOption, getSeries } from "../../chart/counts.ts";
 
 // eslint-disable-next-line max-lines-per-function
@@ -70,7 +70,7 @@ export async function getCountsChart(
   movingAverages: number[],
   chartDimensions: [number, number],
 ): Promise<Buffer<ArrayBufferLike>> {
-  const canvas = createCanvas(...chartDimensions);
+  const canvas = new Canvas(...chartDimensions);
   const chart = echarts.init(canvas as never);
 
   const counts = new Map(
