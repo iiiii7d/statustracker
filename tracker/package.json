@@ -1,6 +1,6 @@
 {
   "name": "statustracker4-tracker",
-  "version": "4.0.0-beta.4",
+  "version": "4.0.0-beta.5",
   "private": true,
   "type": "module",
   "scripts": {

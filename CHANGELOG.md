@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.0.0-beta.5 (20261127)
+
+- change `canvas` to `skia-canvas`
+  - simplify `tracker` bundling
+
 ## v4.0.0-beta.4 (20261120)
 
 - fix the previous release
