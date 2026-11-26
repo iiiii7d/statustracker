@@ -22,7 +22,7 @@
     "@internationalized/date": "3.12.4",
     "@nuxt/ui": "4.13.0",
     "@tsconfig/strictest": "2.0.9",
-    "@vueuse/nuxt": "15.0.0",
+    "@vueuse/nuxt": "15.1.0",
     "consola": "3.4.2",
     "echarts": "6.1.0",
     "json5": "2.2.3",
