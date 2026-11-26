@@ -4,5 +4,12 @@
     "github>iiiii7d/renovate-config",
     ":pinAllExceptPeerDependencies"
   ],
-  "baseBranchPatterns": ["v4", "$default", "dev"]
+  "baseBranchPatterns": ["v4", "$default", "dev"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["/^@iconify-json\\//"],
+      "groupName": "iconify-json",
+      "schedule": ["* 0-3 * * 1"]
+    }
+  ]
 }

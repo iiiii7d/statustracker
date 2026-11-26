@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@iconify-json/lucide": "1.2.158",
+    "@iconify-json/simple-icons": "1.2.103",
     "@internationalized/date": "3.12.4",
     "@nuxt/ui": "4.13.0",
     "@tsconfig/strictest": "2.0.9",
