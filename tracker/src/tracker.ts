@@ -4,6 +4,15 @@ import updateCount from "./updateCount.ts";
 import task from "./webhook.ts";
 import { migrateDB } from "shared/backend/db/index.ts";
 import logger from "shared/logger.ts";
+import { FontLibrary } from "skia-canvas";
+import { glob } from "node:fs/promises";
+
+const fonts: string[] = [];
+for await (const file of glob(`${import.meta.dirname}/fonts/*.{woff,woff2}`)) {
+  fonts.push(file);
+}
+logger.debug(`Loading custom fonts: ${fonts}`);
+FontLibrary.use(fonts);
 
 await migrateDB();
 

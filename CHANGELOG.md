@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.0.0-beta.6 (20261128)
+
+- bundle nunito fonts in tracker
+
 ## v4.0.0-beta.5 (20261127)
 
 - change `canvas` to `skia-canvas`

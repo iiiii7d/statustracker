@@ -1,5 +1,6 @@
 import { defineConfig } from "rolldown";
 import nativeFilePlugin from "vite-plugin-native-modules";
+import copyPlugin from "rollup-plugin-copy";
 
 export default defineConfig([
   {
@@ -10,7 +11,17 @@ export default defineConfig([
       codeSplitting: false,
     },
     platform: "node",
-    plugins: [nativeFilePlugin()],
+    plugins: [
+      nativeFilePlugin(),
+      copyPlugin({
+        targets: [
+          {
+            src: "node_modules/@fontsource/nunito/files/**/*",
+            dest: "dist/fonts",
+          },
+        ],
+      }),
+    ],
   },
   {
     input: "src/tasks/recalculateCounts.ts",
