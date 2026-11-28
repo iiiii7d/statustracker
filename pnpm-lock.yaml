@@ -265,7 +265,7 @@ importers:
   tracker:
     dependencies:
       '@fontsource/nunito':
-        specifier: ^5.3.0
+        specifier: 5.3.0
         version: 5.3.0
       '@internationalized/date':
         specifier: 3.12.4
