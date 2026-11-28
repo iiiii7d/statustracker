@@ -3,6 +3,7 @@ import * as dt from "@internationalized/date";
 import { countsAPI, type CountsAPIJson } from "shared/api.ts";
 import logger from "shared/logger.ts";
 import { getCounts } from "shared/backend/db/counts.ts";
+import { defineHandler, getValidatedQuery } from "nuxt/server";
 
 import { now } from "shared/index.ts";
 
@@ -28,8 +29,8 @@ const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-export default defineEventHandler(async (event): Promise<CountsAPIJson> => {
-  logger.verbose(`Processing ${event.path}`);
+export default defineHandler(async (event): Promise<CountsAPIJson> => {
+  logger.verbose(`Processing ${event.url.pathname}`);
 
   const { from, to, movingAverage } = await getValidatedQuery(event, (body) =>
     schema.parse(body),

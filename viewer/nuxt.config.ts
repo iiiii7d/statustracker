@@ -1,4 +1,4 @@
-import pkg from "./package.json";
+import pkg from "./package.json" with { type: "json" };
 
 let nuxtEslintExists = true;
 try {
@@ -9,8 +9,8 @@ try {
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2026-07-01",
-  future: { compatibilityVersion: 4 },
+  compatibilityDate: "2026-12-01",
+  future: { compatibilityVersion: 5 },
   devtools: { enabled: true },
 
   app: {

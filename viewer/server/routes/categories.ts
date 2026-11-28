@@ -4,6 +4,7 @@ import config from "shared/backend/config.ts";
 import * as dt from "@internationalized/date";
 import { z } from "zod";
 import { now } from "shared/index.ts";
+import { defineHandler, getValidatedQuery } from "nuxt/server";
 
 const schema = z.object({
   asOf: z.iso
@@ -12,8 +13,8 @@ const schema = z.object({
     .default(now()),
 });
 
-export default defineEventHandler(async (event): Promise<CategoriesAPI> => {
-  logger.verbose(`Processing ${event.path}`);
+export default defineHandler(async (event): Promise<CategoriesAPI> => {
+  logger.verbose(`Processing ${event.url.pathname}`);
 
   const { asOf } = await getValidatedQuery(event, (body) => schema.parse(body));
 

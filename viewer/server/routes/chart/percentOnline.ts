@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getPercentOnlineChart } from "shared/backend/db/percentOnline.ts";
 import logger from "shared/logger.ts";
 import { now } from "shared/index.ts";
+import { defineHandler, getValidatedQuery } from "nuxt/server";
 
 export const schema = z
   .object({
@@ -25,8 +26,8 @@ export const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-export default defineEventHandler(async (event) => {
-  logger.verbose(`Processing ${event.path}`);
+export default defineHandler(async (event) => {
+  logger.verbose(`Processing ${event.url.pathname}`);
 
   const { from, to, chartDimensions } = await getValidatedQuery(event, (body) =>
     schema.parse(body),

@@ -6,6 +6,12 @@ import { currentTimestamp, nameToUUID } from "shared/backend/index.ts";
 import { playerAPI, type PlayerAPIJson } from "shared/api.ts";
 import logger from "shared/logger.ts";
 import { now } from "shared/index.ts";
+import {
+  defineHandler,
+  getValidatedQuery,
+  getRouterParam,
+  createError,
+} from "nuxt/server";
 
 const schema = z
   .object({
@@ -26,8 +32,8 @@ const schema = z
   );
 
 // eslint-disable-next-line max-lines-per-function
-export default defineEventHandler(async (event): Promise<PlayerAPIJson> => {
-  logger.verbose(`Processing ${event.path}`);
+export default defineHandler(async (event): Promise<PlayerAPIJson> => {
+  logger.verbose(`Processing ${event.url.pathname}`);
   const player = getRouterParam(event, "name")!;
 
   const { from, to } = await getValidatedQuery(event, (body) =>

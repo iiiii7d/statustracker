@@ -4,6 +4,7 @@ import type { PercentOnlineAPI } from "shared/api.ts";
 import { getPercentOnline } from "shared/backend/db/percentOnline.ts";
 import logger from "shared/logger.ts";
 import { now } from "shared/index.ts";
+import { defineHandler, getValidatedQuery } from "nuxt/server";
 
 const schema = z
   .object({
@@ -23,8 +24,8 @@ const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-export default defineEventHandler(async (event): Promise<PercentOnlineAPI> => {
-  logger.verbose(`Processing ${event.path}`);
+export default defineHandler(async (event): Promise<PercentOnlineAPI> => {
+  logger.verbose(`Processing ${event.url.pathname}`);
 
   const { from, to } = await getValidatedQuery(event, (body) =>
     schema.parse(body),

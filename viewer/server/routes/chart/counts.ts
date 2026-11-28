@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getCountsChart } from "shared/backend/db/counts.ts";
 import logger from "shared/logger.ts";
 import { now } from "shared/index.ts";
+import { defineHandler, getValidatedQuery } from "nuxt/server";
 
 const schema = z
   .object({
@@ -40,8 +41,8 @@ const schema = z
     { error: "`to` is earlier than `from`" },
   );
 
-export default defineEventHandler(async (event) => {
-  logger.verbose(`Processing ${event.path}`);
+export default defineHandler(async (event) => {
+  logger.verbose(`Processing ${event.url.pathname}`);
 
   const { from, to, movingAverages, chartDimensions } = await getValidatedQuery(
     event,
